@@ -18,6 +18,7 @@
             <a href="#home" class="nav-link">Home</a>
             <a href="#cupola" class="nav-link">The Cupola</a>
             <a href="#nbl" class="nav-link">The NBL</a>
+            <a href="#gallery" class="nav-link">Gallery</a>
             <a href="#benefits" class="nav-link">Earth Benefits</a>
             <a href="#about" class="nav-link">About</a>
         </nav>
@@ -43,6 +44,16 @@
                     Explore the International Space Station's most unique sensory experiences 
                     and discover how they benefit humanity.
                 </p>
+                <div class="iss-tracker-widget">
+                    <div class="iss-status">
+                        <span class="status-label">🛰️ ISS Live Position:</span>
+                        <span id="iss-lat" class="status-value">Loading...</span>
+                        <span id="iss-lon" class="status-value">Loading...</span>
+                    </div>
+                    <div class="iss-speed">
+                        <span class="status-label">Speed: 17,900 mph</span>
+                    </div>
+                </div>
                 <button class="cta-button" onclick="scrollToSection('cupola')">
                     Begin Your Training
                 </button>
@@ -65,6 +76,12 @@
                         From 250 miles up, astronauts observe our changing planet. 
                         Explore the view and tap on highlighted regions to uncover their stories.
                     </p>
+                    <div class="live-events-panel">
+                        <h4>🌍 Live Earth Events</h4>
+                        <div id="live-events-list" class="events-list">
+                            <p class="loading-text">Loading real-time data from NASA EONET...</p>
+                        </div>
+                    </div>
                     <div class="orbit-timer">
                         <span class="timer-label">Next Sunrise:</span>
                         <span id="sunrise-timer" class="timer-value">45:23</span>
@@ -164,6 +181,28 @@
                             <div id="task-feedback" class="task-feedback"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NASA Image Gallery Section -->
+        <section id="gallery" class="section gallery-section">
+            <div class="section-header">
+                <h2>NASA Image Gallery</h2>
+                <p class="section-subtitle">Real Images from Space</p>
+            </div>
+            <div class="gallery-content">
+                <div class="gallery-controls">
+                    <input type="text" id="gallery-search" placeholder="Search NASA images (e.g., 'ISS', 'Earth', 'Mars')..." />
+                    <button id="gallery-search-btn" class="search-btn">Search</button>
+                </div>
+                <div id="gallery-grid" class="gallery-grid">
+                    <p class="loading-text">Loading NASA images...</p>
+                </div>
+                <div id="gallery-modal" class="gallery-modal">
+                    <span class="modal-close">&times;</span>
+                    <img id="modal-image" class="modal-content" alt="NASA Image">
+                    <div id="modal-caption" class="modal-caption"></div>
                 </div>
             </div>
         </section>
@@ -349,6 +388,8 @@
         <p>All imagery courtesy of NASA. For educational purposes.</p>
     </footer>
 
+    <script src="config.js"></script>
+    <script src="api.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
