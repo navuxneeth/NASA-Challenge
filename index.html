@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Orbital Perspectives - Experience the ISS Cupola and NBL Training">
+    <title>Orbital Perspectives - Your Journey to the Stars, for Earth</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="logo">
+            <span class="logo-icon">★</span>
+            <span class="logo-text">Orbital Perspectives</span>
+        </div>
+        <nav id="nav">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#cupola" class="nav-link">The Cupola</a>
+            <a href="#nbl" class="nav-link">The NBL</a>
+            <a href="#benefits" class="nav-link">Earth Benefits</a>
+            <a href="#about" class="nav-link">About</a>
+        </nav>
+        <button id="burger-menu" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home/Hero Section -->
+        <section id="home" class="section hero-section">
+            <div class="hero-background">
+                <div class="stars"></div>
+                <div class="earth-orbit"></div>
+            </div>
+            <div class="hero-content">
+                <h1 class="hero-title">Orbital Perspectives</h1>
+                <p class="hero-subtitle">Your Journey to the Stars, for Earth</p>
+                <p class="hero-description">
+                    Explore the International Space Station's most unique sensory experiences 
+                    and discover how they benefit humanity.
+                </p>
+                <button class="cta-button" onclick="scrollToSection('cupola')">
+                    Begin Your Training
+                </button>
+            </div>
+            <div class="scroll-indicator">
+                <div class="mouse"></div>
+                <p>Scroll to explore</p>
+            </div>
+        </section>
+
+        <!-- The Cupola Section -->
+        <section id="cupola" class="section cupola-section">
+            <div class="section-header">
+                <h2>The Window to the World</h2>
+                <p class="section-subtitle">Witnessing Earth from Above</p>
+            </div>
+            <div class="cupola-content">
+                <div class="cupola-description">
+                    <p>
+                        From 250 miles up, astronauts observe our changing planet. 
+                        Explore the view and tap on highlighted regions to uncover their stories.
+                    </p>
+                    <div class="orbit-timer">
+                        <span class="timer-label">Next Sunrise:</span>
+                        <span id="sunrise-timer" class="timer-value">45:23</span>
+                    </div>
+                </div>
+                
+                <div class="cupola-viewer">
+                    <div class="cupola-interior">
+                        <div class="earth-view" id="earth-view">
+                            <div class="earth-rotation">
+                                <div class="poi poi-1" data-poi="wildfires" style="top: 35%; left: 20%;">
+                                    <div class="poi-marker"></div>
+                                    <div class="poi-pulse"></div>
+                                </div>
+                                <div class="poi poi-2" data-poi="hurricane" style="top: 45%; left: 60%;">
+                                    <div class="poi-marker"></div>
+                                    <div class="poi-pulse"></div>
+                                </div>
+                                <div class="poi poi-3" data-poi="deforestation" style="top: 60%; left: 35%;">
+                                    <div class="poi-marker"></div>
+                                    <div class="poi-pulse"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cupola-frame"></div>
+                    </div>
+                    
+                    <div id="poi-panel" class="poi-panel">
+                        <button class="close-panel" aria-label="Close panel">×</button>
+                        <div class="poi-content">
+                            <h3 id="poi-title"></h3>
+                            <div class="poi-images" id="poi-images"></div>
+                            <div class="poi-data" id="poi-data"></div>
+                            <p id="poi-description"></p>
+                            <a href="#" id="poi-learn-more" class="learn-more-btn" target="_blank">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The NBL Section -->
+        <section id="nbl" class="section nbl-section">
+            <div class="section-header">
+                <h2>Training for Zero-G</h2>
+                <p class="section-subtitle">The Art of Weightlessness</p>
+            </div>
+            <div class="nbl-content">
+                <div class="nbl-description">
+                    <p>
+                        Experience the challenge of spacewalk training in the Neutral Buoyancy Lab. 
+                        Adjust your buoyancy and perform critical tasks under simulated microgravity.
+                    </p>
+                    <div class="nbl-facts">
+                        <div class="fact-item">
+                            <span class="fact-value">6.2M</span>
+                            <span class="fact-label">Gallons of Water</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-value">7:1</span>
+                            <span class="fact-label">Training to Spacewalk Hours</span>
+                        </div>
+                        <div class="fact-item">
+                            <span class="fact-value">40ft</span>
+                            <span class="fact-label">Pool Depth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nbl-simulator">
+                    <div class="pool-environment">
+                        <div class="iss-module"></div>
+                        <div class="astronaut" id="astronaut">
+                            <div class="astronaut-body"></div>
+                        </div>
+                        <div class="task-indicator" id="task-indicator">
+                            <p id="task-text">Task: Attach Power Cable to Module</p>
+                        </div>
+                        <div class="connection-point" id="connection-point"></div>
+                    </div>
+
+                    <div class="controls">
+                        <div class="buoyancy-control">
+                            <label for="buoyancy-slider">Buoyancy Control</label>
+                            <div class="slider-container">
+                                <span class="slider-label">Float ↑</span>
+                                <input type="range" id="buoyancy-slider" min="0" max="100" value="50" orient="vertical">
+                                <span class="slider-label">Sink ↓</span>
+                            </div>
+                            <div class="neutral-zone">
+                                <span>Neutral Zone: 45-55</span>
+                            </div>
+                        </div>
+                        
+                        <div class="task-status">
+                            <button id="start-task-btn" class="task-btn">Start Training Task</button>
+                            <div id="task-feedback" class="task-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Earth Benefits Section -->
+        <section id="benefits" class="section benefits-section">
+            <div class="section-header">
+                <h2>From Orbit to Our Lives</h2>
+                <p class="section-subtitle">How Space Benefits Earth</p>
+            </div>
+            <div class="benefits-content">
+                <p class="benefits-intro">
+                    The unique vantage point and microgravity environment of the ISS 
+                    drive innovations that improve life on Earth every day.
+                </p>
+                
+                <div class="benefits-tabs">
+                    <button class="tab-btn active" data-tab="healthcare">Healthcare</button>
+                    <button class="tab-btn" data-tab="disaster">Disaster Relief</button>
+                    <button class="tab-btn" data-tab="environment">Environmental Science</button>
+                    <button class="tab-btn" data-tab="technology">Technology Transfer</button>
+                </div>
+
+                <div class="benefits-display">
+                    <div class="benefit-card active" id="healthcare">
+                        <div class="benefit-image healthcare-img"></div>
+                        <div class="benefit-text">
+                            <h3>Healthcare Innovations</h3>
+                            <p>
+                                Microgravity protein crystallization aboard the ISS has led to breakthrough 
+                                drug discoveries. Research in space has advanced our understanding of diseases 
+                                like Alzheimer's, cancer, and osteoporosis, leading to new treatments on Earth.
+                            </p>
+                            <ul>
+                                <li>Advanced prosthetics development</li>
+                                <li>New pharmaceutical discoveries</li>
+                                <li>Medical imaging improvements</li>
+                                <li>Telemedicine technologies</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="benefit-card" id="disaster">
+                        <div class="benefit-image disaster-img"></div>
+                        <div class="benefit-text">
+                            <h3>Disaster Relief & Monitoring</h3>
+                            <p>
+                                Astronauts photographing Earth from the ISS provide real-time intelligence 
+                                for disaster response teams. From wildfires to hurricanes, ISS observations 
+                                help save lives and coordinate relief efforts.
+                            </p>
+                            <ul>
+                                <li>Wildfire tracking and containment</li>
+                                <li>Hurricane path prediction</li>
+                                <li>Flood damage assessment</li>
+                                <li>Volcanic activity monitoring</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="benefit-card" id="environment">
+                        <div class="benefit-image environment-img"></div>
+                        <div class="benefit-text">
+                            <h3>Environmental Science</h3>
+                            <p>
+                                The ISS provides a unique platform for monitoring climate change, tracking 
+                                deforestation, studying ocean currents, and observing atmospheric phenomena. 
+                                This data is crucial for understanding and protecting our planet.
+                            </p>
+                            <ul>
+                                <li>Climate change monitoring</li>
+                                <li>Deforestation tracking</li>
+                                <li>Ocean current analysis</li>
+                                <li>Atmospheric research</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="benefit-card" id="technology">
+                        <div class="benefit-image technology-img"></div>
+                        <div class="benefit-text">
+                            <h3>Technology Transfer</h3>
+                            <p>
+                                Technologies developed for space have found countless applications on Earth. 
+                                From water purification systems to advanced materials, NBL-inspired innovations 
+                                improve our daily lives.
+                            </p>
+                            <ul>
+                                <li>Water filtration systems</li>
+                                <li>Advanced materials science</li>
+                                <li>Robotic technologies</li>
+                                <li>Communication systems</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="did-you-know">
+                    <h3>Did You Know?</h3>
+                    <div class="fact-carousel">
+                        <p class="fact-item active">The ISS orbits Earth 16 times per day, experiencing 16 sunrises and sunsets.</p>
+                        <p class="fact-item">Over 90% of Earth's population lives under the ISS orbital path.</p>
+                        <p class="fact-item">Astronauts train for 7 hours in the NBL for every 1 hour of spacewalk.</p>
+                        <p class="fact-item">The ISS travels at 17,900 mph, completing an orbit every 90 minutes.</p>
+                    </div>
+                    <div class="carousel-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section about-section">
+            <div class="section-header">
+                <h2>About Orbital Perspectives</h2>
+            </div>
+            <div class="about-content">
+                <div class="project-description">
+                    <h3>Our Mission</h3>
+                    <p>
+                        Orbital Perspectives is an interactive educational tool created for the 
+                        NASA Space Apps Challenge. Our mission is to help students and the general 
+                        public understand two of the most prominent sensory experiences on the 
+                        International Space Station: the breathtaking views from the Cupola and 
+                        the unique challenge of weightlessness training in the Neutral Buoyancy Laboratory.
+                    </p>
+                    <p>
+                        Through immersive visual experiences and interactive simulations, we aim to 
+                        inspire curiosity about space exploration while highlighting how these 
+                        extraordinary experiences benefit humanity here on Earth.
+                    </p>
+                </div>
+
+                <div class="resources">
+                    <h3>NASA Resources & Data Used</h3>
+                    <ul>
+                        <li><a href="https://eol.jsc.nasa.gov/" target="_blank">Gateway to Astronaut Photography of Earth</a></li>
+                        <li><a href="https://www.nasa.gov/mission_pages/station/main/index.html" target="_blank">International Space Station</a></li>
+                        <li><a href="https://www.nasa.gov/content/neutral-buoyancy-laboratory" target="_blank">Neutral Buoyancy Laboratory</a></li>
+                        <li><a href="https://images.nasa.gov/" target="_blank">NASA Image and Video Library</a></li>
+                        <li><a href="https://earthobservatory.nasa.gov/" target="_blank">NASA Earth Observatory</a></li>
+                    </ul>
+                </div>
+
+                <div class="acknowledgments">
+                    <h3>Acknowledgments</h3>
+                    <div class="logos">
+                        <div class="nasa-logo">NASA</div>
+                        <div class="space-apps-logo">Space Apps Challenge</div>
+                    </div>
+                    <p>
+                        This project was created for the NASA Space Apps Challenge. 
+                        All imagery and data are courtesy of NASA and are used for educational purposes.
+                    </p>
+                    <p>
+                        Special thanks to the astronauts, scientists, and engineers who make the 
+                        International Space Station a beacon of international cooperation and 
+                        scientific discovery.
+                    </p>
+                </div>
+
+                <div class="contact">
+                    <h3>Get in Touch</h3>
+                    <p>Have questions or feedback? We'd love to hear from you!</p>
+                    <form class="contact-form" id="contact-form">
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea placeholder="Your Message" rows="4" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Orbital Perspectives. Created for NASA Space Apps Challenge.</p>
+        <p>All imagery courtesy of NASA. For educational purposes.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
