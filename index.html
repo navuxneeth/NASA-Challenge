@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Orbital Perspectives - Experience the ISS Cupola and NBL Training">
     <title>Orbital Perspectives - Your Journey to the Stars, for Earth</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -111,8 +112,7 @@
                     </div>
                 </div>
                 <div id="iss-world-map" class="world-map">
-                    <canvas id="world-map-canvas"></canvas>
-                    <div id="map-tooltip" class="map-tooltip" style="display: none;"></div>
+                    <div id="world-map-leaflet"></div>
                 </div>
             </div>
         </section>
@@ -441,6 +441,7 @@
         <p>All imagery courtesy of NASA. For educational purposes.</p>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="config.js"></script>
     <script src="api.js"></script>
     <script src="script.js"></script>
