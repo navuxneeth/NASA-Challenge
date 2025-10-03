@@ -411,16 +411,218 @@ if ('ontouchstart' in window) {
     });
 }
 
-// Console welcome message
-console.log('%c🚀 Orbital Perspectives 🌍', 'font-size: 24px; font-weight: bold; color: #0b3d91;');
-console.log('%cWelcome to your journey to the International Space Station!', 'font-size: 14px; color: #333;');
-console.log('%cThis interactive experience showcases the ISS Cupola and NBL Training.', 'font-size: 12px; color: #666;');
+// ============================================
+// REAL API INTEGRATIONS
+// ============================================
 
-// Performance monitoring (optional)
-if (window.performance) {
-    window.addEventListener('load', () => {
+// Initialize Real-Time ISS Tracking
+function initISSTracking() {
+    if (CONFIG.ISS_LOCATION_ENABLED && typeof issTracker !== 'undefined') {
+        issTracker.startTracking((position) => {
+            if (position) {
+                const latElement = document.getElementById('iss-lat');
+                const lonElement = document.getElementById('iss-lon');
+                
+                if (latElement && lonElement) {
+                    latElement.textContent = `Lat: ${position.latitude.toFixed(2)}°`;
+                    lonElement.textContent = `Lon: ${position.longitude.toFixed(2)}°`;
+                }
+            }
+        }, 10000); // Update every 10 seconds
+    }
+}
+
+// Load Live Earth Events from NASA EONET
+async function loadLiveEvents() {
+    if (typeof eonetApi === 'undefined') return;
+    
+    const eventsContainer = document.getElementById('live-events-list');
+    if (!eventsContainer) return;
+    
+    try {
+        const events = await eonetApi.getEvents(null, 5);
+        
+        if (events.length > 0) {
+            eventsContainer.innerHTML = events.map(event => `
+                <div class="event-item">
+                    <div class="event-icon">${getCategoryIcon(event.categories[0].id)}</div>
+                    <div class="event-info">
+                        <strong>${event.title}</strong>
+                        <span class="event-date">${new Date(event.geometry[0].date).toLocaleDateString()}</span>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            eventsContainer.innerHTML = '<p>No current events</p>';
+        }
+    } catch (error) {
+        console.error('Error loading events:', error);
+        eventsContainer.innerHTML = '<p>Unable to load events</p>';
+    }
+}
+
+function getCategoryIcon(categoryId) {
+    const icons = {
+        'wildfires': '🔥',
+        'severeStorms': '🌪️',
+        'volcanoes': '🌋',
+        'floods': '🌊',
+        'drought': '🏜️',
+        'dustHaze': '💨',
+        'snow': '❄️'
+    };
+    return icons[categoryId] || '🌍';
+}
+
+// NASA Image Gallery Integration
+let currentGallerySearch = 'ISS';
+
+async function loadGalleryImages(query = 'ISS') {
+    if (typeof nasaApi === 'undefined') return;
+    
+    const galleryGrid = document.getElementById('gallery-grid');
+    if (!galleryGrid) return;
+    
+    galleryGrid.innerHTML = '<p class="loading-text">Loading images...</p>';
+    
+    try {
+        const results = await nasaApi.searchImages(query);
+        
+        if (results.length > 0) {
+            const images = results.slice(0, 12); // Limit to 12 images
+            
+            galleryGrid.innerHTML = images.map((item, index) => {
+                const imageUrl = item.links && item.links[0] ? item.links[0].href : '';
+                const title = item.data[0].title || 'NASA Image';
+                const description = item.data[0].description || '';
+                
+                return `
+                    <div class="gallery-item" data-index="${index}" data-url="${imageUrl}" data-title="${title.replace(/"/g, '&quot;')}" data-description="${description.replace(/"/g, '&quot;')}">
+                        <img src="${imageUrl}" alt="${title}" loading="lazy">
+                        <div class="gallery-overlay">
+                            <p>${title.substring(0, 60)}${title.length > 60 ? '...' : ''}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Add click handlers to gallery items
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    openGalleryModal(
+                        item.dataset.url,
+                        item.dataset.title,
+                        item.dataset.description
+                    );
+                });
+            });
+        } else {
+            galleryGrid.innerHTML = '<p>No images found. Try a different search term.</p>';
+        }
+    } catch (error) {
+        console.error('Error loading gallery:', error);
+        galleryGrid.innerHTML = '<p>Unable to load images. Please check your API configuration.</p>';
+    }
+}
+
+function openGalleryModal(imageUrl, title, description) {
+    const modal = document.getElementById('gallery-modal');
+    const modalImg = document.getElementById('modal-image');
+    const modalCaption = document.getElementById('modal-caption');
+    
+    if (modal && modalImg && modalCaption) {
+        modal.style.display = 'flex';
+        modalImg.src = imageUrl;
+        modalCaption.innerHTML = `<strong>${title}</strong><br>${description.substring(0, 200)}${description.length > 200 ? '...' : ''}`;
+    }
+}
+
+// Gallery search functionality
+const gallerySearchBtn = document.getElementById('gallery-search-btn');
+const gallerySearchInput = document.getElementById('gallery-search');
+
+if (gallerySearchBtn && gallerySearchInput) {
+    gallerySearchBtn.addEventListener('click', () => {
+        const query = gallerySearchInput.value.trim() || 'ISS';
+        loadGalleryImages(query);
+    });
+    
+    gallerySearchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            const query = gallerySearchInput.value.trim() || 'ISS';
+            loadGalleryImages(query);
+        }
+    });
+}
+
+// Close modal
+const modalClose = document.querySelector('.modal-close');
+const galleryModal = document.getElementById('gallery-modal');
+
+if (modalClose && galleryModal) {
+    modalClose.addEventListener('click', () => {
+        galleryModal.style.display = 'none';
+    });
+    
+    galleryModal.addEventListener('click', (e) => {
+        if (e.target === galleryModal) {
+            galleryModal.style.display = 'none';
+        }
+    });
+}
+
+// Update POI data with real information
+async function updatePOIWithRealData(poiType) {
+    if (typeof eonetApi === 'undefined') return;
+    
+    try {
+        let events = [];
+        if (poiType === 'wildfires') {
+            events = await eonetApi.getWildfires();
+        } else if (poiType === 'hurricane') {
+            events = await eonetApi.getSevereStorms();
+        }
+        
+        if (events.length > 0) {
+            const event = events[0];
+            const poiImages = document.getElementById('poi-images');
+            
+            if (poiImages) {
+                poiImages.innerHTML = `
+                    <div class="real-event-data">
+                        <p><strong>Latest Event:</strong> ${event.title}</p>
+                        <p><strong>Date:</strong> ${new Date(event.geometry[0].date).toLocaleString()}</p>
+                    </div>
+                `;
+            }
+        }
+    } catch (error) {
+        console.error('Error updating POI:', error);
+    }
+}
+
+// Initialize all API features on page load
+window.addEventListener('load', () => {
+    console.log('%c🚀 Orbital Perspectives 🌍', 'font-size: 24px; font-weight: bold; color: #0b3d91;');
+    console.log('%cWelcome to your journey to the International Space Station!', 'font-size: 14px; color: #333;');
+    console.log('%cThis interactive experience showcases the ISS Cupola and NBL Training with REAL NASA data!', 'font-size: 12px; color: #666;');
+    
+    // Initialize ISS tracking
+    initISSTracking();
+    
+    // Load live events
+    loadLiveEvents();
+    
+    // Load initial gallery images
+    loadGalleryImages('ISS');
+    
+    // Refresh events every 5 minutes
+    setInterval(loadLiveEvents, 300000);
+    
+    // Performance monitoring
+    if (window.performance) {
         const perfData = window.performance.timing;
         const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
         console.log(`Page loaded in ${pageLoadTime}ms`);
-    });
-}
+    }
+});
