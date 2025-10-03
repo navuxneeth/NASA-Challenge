@@ -1,5 +1,5 @@
 # User-added images folder (optional customization)
-images/
+/images/
 
 # OS files
 .DS_Store
