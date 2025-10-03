@@ -152,16 +152,43 @@ You can download free NASA images from:
 
 ## 🌐 How to Use
 
+### Quick Start (Local)
 1. **Open `index.html`** in a modern web browser
 2. **Navigate** through sections using the header menu or scroll
-3. **Interact** with:
-   - Real-time ISS position in the hero section
-   - Live Earth events in the Cupola section
-   - NASA image gallery - search for any space topic!
-   - Points of Interest on the Earth view
-   - The buoyancy simulator in the NBL section
-   - Benefits tabs to explore different applications
-4. **Learn** about how ISS observations benefit Earth with REAL data!
+3. **Interact** with all the features!
+
+### For Full API Features (Recommended)
+The APIs work best when deployed to a web server. You can:
+
+**Option 1: Use a Local Server**
+```bash
+# Python (easiest)
+python3 -m http.server 8080
+# Then open: http://localhost:8080
+
+# Node.js
+npx http-server -p 8080
+
+# PHP
+php -S localhost:8080
+```
+
+**Option 2: Deploy for Free**
+- **GitHub Pages** (recommended): Push to GitHub, enable Pages in settings
+- **Netlify**: Drag and drop your files
+- **Vercel**: Connect your GitHub repo
+- **Any web hosting**: Upload files via FTP
+
+> **Note:** When opening the HTML file directly (file://), you may see CORS errors in the console. This is normal for local development. The website still works and looks great! For full API functionality, use one of the options above.
+
+### What You Can Do
+
+1. **View real-time ISS position** in the hero section
+2. **See live Earth events** (wildfires, storms) in the Cupola section
+3. **Search NASA's image library** - try "Mars", "Hubble", "astronaut"!
+4. **Click on red markers** to learn about Earth monitoring
+5. **Try the buoyancy simulator** in the NBL section
+6. **Explore benefits tabs** to see how space helps Earth
 
 ## 🎮 Interactive Elements
 
