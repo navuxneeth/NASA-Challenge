@@ -610,6 +610,9 @@ window.addEventListener('load', () => {
     // Initialize ISS tracking
     initISSTracking();
     
+    // Initialize interactive world map
+    initISSWorldMap();
+    
     // Load live events
     loadLiveEvents();
     
@@ -626,3 +629,412 @@ window.addEventListener('load', () => {
         console.log(`Page loaded in ${pageLoadTime}ms`);
     }
 });
+
+// ============================================
+// Interactive ISS World Map with Canvas
+// ============================================
+
+let worldMapCanvas = null;
+let worldMapCtx = null;
+let issPosition = { lat: 0, lon: 0 };
+let pathCoordinates = [];
+let showPath = true;
+let showGrid = true;
+let mapZoom = 1;
+let mapOffsetX = 0;
+let mapOffsetY = 0;
+let isMapDragging = false;
+let mapDragStart = { x: 0, y: 0 };
+
+// Simplified world continents data (approximate coordinates)
+const worldContinents = [
+    // North America
+    { name: "North America", coords: [
+        [-170, 15], [-140, 72], [-60, 72], [-60, 15], [-110, 10], [-85, 28], [-80, 25], [-82, 28], [-100, 30], [-125, 40], [-170, 15]
+    ]},
+    // South America
+    { name: "South America", coords: [
+        [-80, 12], [-70, 12], [-35, -55], [-70, -55], [-80, -20], [-80, 12]
+    ]},
+    // Europe
+    { name: "Europe", coords: [
+        [-10, 36], [40, 36], [40, 71], [-10, 60], [-10, 36]
+    ]},
+    // Africa
+    { name: "Africa", coords: [
+        [-18, 35], [50, 35], [50, -35], [-18, -35], [-18, 35]
+    ]},
+    // Asia
+    { name: "Asia", coords: [
+        [40, 5], [145, 5], [145, 75], [40, 75], [40, 5]
+    ]},
+    // Australia
+    { name: "Australia", coords: [
+        [113, -10], [153, -10], [153, -43], [113, -43], [113, -10]
+    ]}
+];
+
+function initISSWorldMap() {
+    worldMapCanvas = document.getElementById('world-map-canvas');
+    if (!worldMapCanvas) {
+        console.error('Map canvas not found');
+        return;
+    }
+
+    worldMapCtx = worldMapCanvas.getContext('2d');
+    
+    // Set canvas size
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Setup mouse interactions
+    setupCanvasInteractions();
+    
+    // Setup control buttons
+    setupMapControls();
+
+    // Start tracking ISS on map
+    if (CONFIG.ISS_LOCATION_ENABLED && typeof issTracker !== 'undefined') {
+        issTracker.startTracking((position) => {
+            if (position) {
+                updateISSOnMap(position);
+            }
+        }, 5000); // Update every 5 seconds
+    }
+    
+    // Fallback: Use simulated ISS position if API is blocked
+    // This ensures the map demo works even without API access
+    if (!issPosition.lat && !issPosition.lon) {
+        simulateISSPosition();
+        setInterval(simulateISSPosition, 5000);
+    }
+
+    // Start animation loop
+    animateWorldMap();
+
+    console.log('🗺️ Interactive ISS World Map initialized!');
+}
+
+// Simulate ISS orbital motion for demo purposes
+let simulatedTime = 0;
+function simulateISSPosition() {
+    // ISS orbital period is ~92 minutes (5520 seconds)
+    // Simulate orbital motion
+    simulatedTime += 5; // 5 seconds increment
+    const orbitalProgress = (simulatedTime % 5520) / 5520;
+    
+    // Simulate orbit with inclination of ~51.6 degrees
+    const lon = (orbitalProgress * 360 - 180); // Full circle around Earth
+    const lat = Math.sin(orbitalProgress * Math.PI * 2) * 51.6; // Oscillate between -51.6 and +51.6
+    
+    const simulatedPosition = {
+        latitude: lat,
+        longitude: lon,
+        timestamp: Date.now() / 1000
+    };
+    
+    updateISSOnMap(simulatedPosition);
+    
+    // Update tracker for consistency
+    if (typeof issTracker !== 'undefined') {
+        issTracker.currentPosition = simulatedPosition;
+    }
+}
+
+function resizeCanvas() {
+    if (!worldMapCanvas) return;
+    const container = worldMapCanvas.parentElement;
+    worldMapCanvas.width = container.clientWidth;
+    worldMapCanvas.height = container.clientHeight;
+}
+
+function latLonToXY(lat, lon) {
+    // Simple equirectangular projection
+    const width = worldMapCanvas.width;
+    const height = worldMapCanvas.height;
+    
+    const x = ((lon + 180) / 360) * width * mapZoom + mapOffsetX;
+    const y = ((90 - lat) / 180) * height * mapZoom + mapOffsetY;
+    
+    return { x, y };
+}
+
+function xyToLatLon(x, y) {
+    const width = worldMapCanvas.width;
+    const height = worldMapCanvas.height;
+    
+    const lon = ((x - mapOffsetX) / (width * mapZoom)) * 360 - 180;
+    const lat = 90 - ((y - mapOffsetY) / (height * mapZoom)) * 180;
+    
+    return { lat, lon };
+}
+
+function drawWorldMap() {
+    if (!worldMapCtx) return;
+    
+    const ctx = worldMapCtx;
+    const width = worldMapCanvas.width;
+    const height = worldMapCanvas.height;
+    
+    // Clear canvas
+    ctx.fillStyle = '#1a2332';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Draw ocean
+    ctx.fillStyle = '#2c3e5a';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Draw grid
+    if (showGrid) {
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+        ctx.lineWidth = 1;
+        
+        // Latitude lines
+        for (let lat = -90; lat <= 90; lat += 15) {
+            ctx.beginPath();
+            for (let lon = -180; lon <= 180; lon += 5) {
+                const point = latLonToXY(lat, lon);
+                if (lon === -180) {
+                    ctx.moveTo(point.x, point.y);
+                } else {
+                    ctx.lineTo(point.x, point.y);
+                }
+            }
+            ctx.stroke();
+        }
+        
+        // Longitude lines
+        for (let lon = -180; lon <= 180; lon += 15) {
+            ctx.beginPath();
+            for (let lat = -90; lat <= 90; lat += 5) {
+                const point = latLonToXY(lat, lon);
+                if (lat === -90) {
+                    ctx.moveTo(point.x, point.y);
+                } else {
+                    ctx.lineTo(point.x, point.y);
+                }
+            }
+            ctx.stroke();
+        }
+        
+        // Equator
+        ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let lon = -180; lon <= 180; lon += 5) {
+            const point = latLonToXY(0, lon);
+            if (lon === -180) {
+                ctx.moveTo(point.x, point.y);
+            } else {
+                ctx.lineTo(point.x, point.y);
+            }
+        }
+        ctx.stroke();
+    }
+    
+    // Draw continents
+    ctx.fillStyle = '#4a7c59';
+    ctx.strokeStyle = '#2d4a38';
+    ctx.lineWidth = 2;
+    
+    worldContinents.forEach(continent => {
+        ctx.beginPath();
+        continent.coords.forEach((coord, i) => {
+            const point = latLonToXY(coord[1], coord[0]);
+            if (i === 0) {
+                ctx.moveTo(point.x, point.y);
+            } else {
+                ctx.lineTo(point.x, point.y);
+            }
+        });
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+    });
+    
+    // Draw orbital path
+    if (showPath && pathCoordinates.length > 1) {
+        ctx.strokeStyle = 'rgba(255, 215, 0, 0.7)';
+        ctx.lineWidth = 3;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        
+        ctx.beginPath();
+        pathCoordinates.forEach((coord, i) => {
+            const point = latLonToXY(coord.lat, coord.lon);
+            if (i === 0) {
+                ctx.moveTo(point.x, point.y);
+            } else {
+                ctx.lineTo(point.x, point.y);
+            }
+        });
+        ctx.stroke();
+    }
+    
+    // Draw ISS
+    if (issPosition) {
+        const issPoint = latLonToXY(issPosition.lat, issPosition.lon);
+        
+        // Draw glow
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = '#ffd700';
+        
+        // Draw ISS icon
+        ctx.font = '32px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🛰️', issPoint.x, issPoint.y);
+        
+        ctx.shadowBlur = 0;
+        
+        // Draw pulse circle
+        const time = Date.now() / 1000;
+        const pulseRadius = 15 + Math.sin(time * 2) * 5;
+        ctx.strokeStyle = `rgba(255, 215, 0, ${0.5 + Math.sin(time * 2) * 0.3})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(issPoint.x, issPoint.y, pulseRadius, 0, Math.PI * 2);
+        ctx.stroke();
+    }
+}
+
+function animateWorldMap() {
+    drawWorldMap();
+    requestAnimationFrame(animateWorldMap);
+}
+
+function updateISSOnMap(position) {
+    if (!position) return;
+
+    issPosition = {
+        lat: position.latitude,
+        lon: position.longitude
+    };
+
+    // Update info panel
+    const mapLatElement = document.getElementById('map-lat');
+    const mapLonElement = document.getElementById('map-lon');
+    
+    if (mapLatElement && mapLonElement) {
+        mapLatElement.textContent = `Latitude: ${issPosition.lat.toFixed(4)}°`;
+        mapLonElement.textContent = `Longitude: ${issPosition.lon.toFixed(4)}°`;
+    }
+
+    // Add to path
+    pathCoordinates.push({ lat: issPosition.lat, lon: issPosition.lon });
+    
+    // Keep only last 50 points to avoid performance issues
+    if (pathCoordinates.length > 50) {
+        pathCoordinates.shift();
+    }
+}
+
+function setupCanvasInteractions() {
+    if (!worldMapCanvas) return;
+    
+    const tooltip = document.getElementById('map-tooltip');
+    
+    // Mouse move for tooltip
+    worldMapCanvas.addEventListener('mousemove', (e) => {
+        const rect = worldMapCanvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const issPoint = latLonToXY(issPosition.lat, issPosition.lon);
+        const dist = Math.sqrt(Math.pow(x - issPoint.x, 2) + Math.pow(y - issPoint.y, 2));
+        
+        if (dist < 30) {
+            const timestamp = issTracker.currentPosition ? new Date(issTracker.currentPosition.timestamp * 1000).toLocaleTimeString() : 'N/A';
+            tooltip.innerHTML = `
+                <h4>🛰️ ISS Position</h4>
+                <p><strong>Lat:</strong> ${issPosition.lat.toFixed(4)}°</p>
+                <p><strong>Lon:</strong> ${issPosition.lon.toFixed(4)}°</p>
+                <p><strong>Alt:</strong> ~408 km</p>
+                <p><strong>Speed:</strong> 27,600 km/h</p>
+                <p style="font-size: 0.8em; opacity: 0.8;">Updated: ${timestamp}</p>
+            `;
+            tooltip.style.display = 'block';
+            tooltip.style.left = (e.clientX + 15) + 'px';
+            tooltip.style.top = (e.clientY + 15) + 'px';
+        } else {
+            tooltip.style.display = 'none';
+        }
+        
+        // Handle dragging
+        if (isMapDragging) {
+            mapOffsetX += e.clientX - mapDragStart.x;
+            mapOffsetY += e.clientY - mapDragStart.y;
+            mapDragStart = { x: e.clientX, y: e.clientY };
+        }
+    });
+    
+    // Mouse down for dragging
+    worldMapCanvas.addEventListener('mousedown', (e) => {
+        isMapDragging = true;
+        mapDragStart = { x: e.clientX, y: e.clientY };
+    });
+    
+    // Mouse up to stop dragging
+    worldMapCanvas.addEventListener('mouseup', () => {
+        isMapDragging = false;
+    });
+    
+    worldMapCanvas.addEventListener('mouseleave', () => {
+        isMapDragging = false;
+        if (tooltip) tooltip.style.display = 'none';
+    });
+    
+    // Double click to center on ISS
+    worldMapCanvas.addEventListener('dblclick', () => {
+        centerOnISS();
+    });
+}
+
+function setupMapControls() {
+    // Center on ISS button
+    const centerBtn = document.getElementById('center-iss-btn');
+    if (centerBtn) {
+        centerBtn.addEventListener('click', centerOnISS);
+    }
+
+    // Toggle path button
+    const togglePathBtn = document.getElementById('toggle-path-btn');
+    if (togglePathBtn) {
+        togglePathBtn.addEventListener('click', () => {
+            showPath = !showPath;
+            togglePathBtn.textContent = showPath ? '🛰️ Hide Path' : '🛰️ Show Path';
+        });
+    }
+
+    // Toggle grid button
+    const toggleLayerBtn = document.getElementById('toggle-layer-btn');
+    if (toggleLayerBtn) {
+        toggleLayerBtn.addEventListener('click', () => {
+            showGrid = !showGrid;
+            toggleLayerBtn.textContent = showGrid ? '🗺️ Hide Grid' : '🗺️ Show Grid';
+        });
+    }
+    
+    // Zoom in button
+    const zoomInBtn = document.getElementById('zoom-in-btn');
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener('click', () => {
+            mapZoom = Math.min(mapZoom * 1.2, 5);
+        });
+    }
+    
+    // Zoom out button
+    const zoomOutBtn = document.getElementById('zoom-out-btn');
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener('click', () => {
+            mapZoom = Math.max(mapZoom / 1.2, 0.5);
+        });
+    }
+}
+
+function centerOnISS() {
+    if (!issPosition) return;
+    const issPoint = latLonToXY(issPosition.lat, issPosition.lon);
+    mapOffsetX = worldMapCanvas.width / 2 - ((issPosition.lon + 180) / 360) * worldMapCanvas.width * mapZoom;
+    mapOffsetY = worldMapCanvas.height / 2 - ((90 - issPosition.lat) / 180) * worldMapCanvas.height * mapZoom;
+}

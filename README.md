@@ -6,10 +6,24 @@ An interactive educational website created for the NASA Space Apps Challenge, de
 
 ### 1. Home/Hero Section
 - Immersive full-screen entry with animated star field
+- Real-time ISS position widget showing latitude and longitude
 - Clear mission statement and call-to-action
 - Smooth scroll indicator
 
-### 2. The Cupola - "The Window to the World"
+### 2. Interactive World Map (NEW! ⭐)
+- **Custom-built Canvas Map** - No external dependencies required
+- **Real-time ISS Tracking** - Watch the space station orbit Earth live
+- **Interactive Controls:**
+  - 📍 Center on ISS - Follow the ISS as it moves
+  - 🛰️ Toggle Orbital Path - Show/hide the ISS trajectory
+  - 🗺️ Toggle Grid - Show/hide latitude/longitude lines
+  - ➕➖ Zoom Controls - Zoom in and out
+  - 🖱️ Pan & Drag - Click and drag to explore the map
+- **Hover Tooltips** - Mouse over the ISS for detailed position info
+- **Live Position Updates** - Updates every 5 seconds with real or simulated data
+- **Works Offline** - Includes simulated orbital motion when APIs are unavailable
+
+### 3. The Cupola - "The Window to the World"
 - Interactive Earth viewing experience
 - Points of Interest (POI) highlighting real-world ISS observations
 - Detailed information panels about:
@@ -18,14 +32,14 @@ An interactive educational website created for the NASA Space Apps Challenge, de
   - Deforestation monitoring
 - Simulated orbital sunrise/sunset timer
 
-### 3. The NBL - "Training for Zero-G"
+### 4. The NBL - "Training for Zero-G"
 - Interactive buoyancy simulation
 - Draggable astronaut avatar
 - Adjustable buoyancy control slider
 - Task-based training mini-game
 - Real NBL statistics and facts
 
-### 4. Earth Benefits
+### 5. Earth Benefits
 - Tabbed interface showcasing four key areas:
   - Healthcare innovations
   - Disaster relief and monitoring
@@ -33,7 +47,7 @@ An interactive educational website created for the NASA Space Apps Challenge, de
   - Technology transfer
 - "Did You Know?" rotating fact carousel
 
-### 5. About Section
+### 6. About Section
 - Project information
 - NASA resources and data sources
 - Acknowledgments
@@ -87,10 +101,11 @@ This tool aims to:
 - [NASA Image and Video Library](https://images.nasa.gov/)
 - [NASA Earth Observatory](https://earthobservatory.nasa.gov/)
 
-## 🚀 NEW: Real API Integration!
+## 🚀 NEW: Real API Integration & Interactive World Map!
 
-This project now includes **REAL APIs** with live data:
-- 🛰️ **Real-time ISS position tracking**
+This project now includes **REAL APIs** with live data and an **interactive world map**:
+- 🗺️ **Interactive World Map** - Custom-built canvas map showing ISS position in real-time
+- 🛰️ **Real-time ISS position tracking** - Watch the ISS orbit Earth live on the map
 - 🌍 **Live Earth events** from NASA EONET (wildfires, storms, etc.)
 - 📸 **Real NASA images** searchable gallery
 - 🌡️ **Weather data** integration
@@ -192,8 +207,23 @@ php -S localhost:8080
 
 ## 🎮 Interactive Elements
 
-### Home Section (NEW!)
-- 🛰️ **Real-time ISS tracking** - See the current position of the International Space Station updated every 10 seconds!
+### Home Section
+- 🛰️ **Real-time ISS tracking widget** - See the current position of the International Space Station updated every 10 seconds!
+- 🎯 **Smooth scroll buttons** - Navigate directly to map or training sections
+
+### Interactive World Map Section (NEW! ⭐)
+- 🗺️ **Canvas-based world map** - Custom-built, no external libraries needed
+- 🛰️ **Live ISS position** - Watch the ISS move across the map in real-time
+- 📊 **Position info panel** - Current latitude, longitude, altitude, velocity, and orbit period
+- 🎮 **Interactive controls:**
+  - Center on ISS button
+  - Toggle orbital path visibility
+  - Show/hide coordinate grid
+  - Zoom in/out controls
+  - Click and drag to pan the map
+- 💡 **Hover tooltips** - Mouse over ISS for detailed information
+- 🔄 **Auto-updating** - Position refreshes every 5 seconds
+- 📱 **Fully responsive** - Works great on mobile and desktop
 
 ### Cupola Section
 - 🌍 **Live Earth Events** - Real events happening right now (wildfires, storms, volcanoes) from NASA's EONET API
@@ -287,6 +317,11 @@ The website demonstrates how ISS research benefits Earth in:
 
 ## ✅ Recently Added Features
 
+- ✅ **Interactive World Map** - Custom-built canvas map with real-time ISS tracking
+- ✅ **Zoom & Pan Controls** - Explore the map with interactive controls
+- ✅ **Orbital Path Visualization** - See the ISS trajectory across Earth
+- ✅ **Hover Tooltips** - Get detailed ISS info on mouse hover
+- ✅ **Simulated Orbit** - Fallback orbital simulation when APIs are blocked
 - ✅ Real-time ISS position tracking using NASA APIs
 - ✅ Actual NASA imagery integration with searchable gallery
 - ✅ Live Earth events (wildfires, storms, etc.)
@@ -295,7 +330,9 @@ The website demonstrates how ISS research benefits Earth in:
 ## 🚀 Future Enhancements
 
 Potential additions could include:
-- 3D globe visualization with Cesium
+- Enhanced 3D globe visualization with WebGL
+- Additional map layers (population density, climate zones, etc.)
+- ISS pass predictions for specific locations
 - Virtual reality (VR) support for immersive experiences
 - Multi-language support for global accessibility
 - Educational quiz modules
