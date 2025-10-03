@@ -54,13 +54,66 @@
                         <span class="status-label">Speed: 17,900 mph</span>
                     </div>
                 </div>
-                <button class="cta-button" onclick="scrollToSection('cupola')">
+                <button class="cta-button" onclick="scrollToSection('iss-map')">
+                    Track ISS on Map
+                </button>
+                <button class="cta-button" onclick="scrollToSection('cupola')" style="margin-left: 15px;">
                     Begin Your Training
                 </button>
             </div>
             <div class="scroll-indicator">
                 <div class="mouse"></div>
                 <p>Scroll to explore</p>
+            </div>
+        </section>
+
+        <!-- ISS Real-Time Map Section -->
+        <section id="iss-map" class="section iss-map-section">
+            <div class="section-header">
+                <h2>🌍 Track the ISS in Real-Time</h2>
+                <p class="section-subtitle">Watch the International Space Station orbit Earth live</p>
+            </div>
+            <div class="map-container">
+                <div class="map-info-panel">
+                    <div class="map-stat">
+                        <h4>Current Position</h4>
+                        <p><span id="map-lat">Loading...</span></p>
+                        <p><span id="map-lon">Loading...</span></p>
+                    </div>
+                    <div class="map-stat">
+                        <h4>Altitude</h4>
+                        <p><span id="map-altitude">~408 km</span></p>
+                    </div>
+                    <div class="map-stat">
+                        <h4>Velocity</h4>
+                        <p><span id="map-velocity">27,600 km/h</span></p>
+                    </div>
+                    <div class="map-stat">
+                        <h4>Orbit Period</h4>
+                        <p><span id="map-period">~92 minutes</span></p>
+                    </div>
+                    <div class="map-controls">
+                        <button class="map-btn" id="center-iss-btn" title="Center map on ISS">
+                            📍 Center on ISS
+                        </button>
+                        <button class="map-btn" id="toggle-path-btn" title="Toggle orbital path">
+                            🛰️ Toggle Path
+                        </button>
+                        <button class="map-btn" id="toggle-layer-btn" title="Toggle map projection">
+                            🗺️ Toggle Grid
+                        </button>
+                        <button class="map-btn" id="zoom-in-btn" title="Zoom in">
+                            ➕ Zoom In
+                        </button>
+                        <button class="map-btn" id="zoom-out-btn" title="Zoom out">
+                            ➖ Zoom Out
+                        </button>
+                    </div>
+                </div>
+                <div id="iss-world-map" class="world-map">
+                    <canvas id="world-map-canvas"></canvas>
+                    <div id="map-tooltip" class="map-tooltip" style="display: none;"></div>
+                </div>
             </div>
         </section>
 

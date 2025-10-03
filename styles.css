@@ -284,6 +284,173 @@ nav {
     100% { top: 30px; opacity: 0; }
 }
 
+/* ISS Real-Time Map Section */
+.iss-map-section {
+    background: linear-gradient(135deg, #001f3f 0%, #003d5c 100%);
+    color: var(--text-light);
+    padding: 4rem 5% 4rem;
+}
+
+.iss-map-section .section-header h2 {
+    color: var(--text-light);
+}
+
+.iss-map-section .section-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.map-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.map-info-panel {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.map-stat {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.map-stat:last-of-type {
+    border-bottom: none;
+}
+
+.map-stat h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--accent-gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.map-stat p {
+    font-size: 1.1rem;
+    margin: 0.3rem 0;
+    font-weight: 500;
+}
+
+.map-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.map-btn {
+    padding: 0.8rem 1.2rem;
+    background: var(--secondary-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all var(--transition-speed);
+    box-shadow: 0 4px 12px rgba(252, 61, 33, 0.3);
+}
+
+.map-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(252, 61, 33, 0.5);
+}
+
+.map-btn:active {
+    transform: translateY(0);
+}
+
+.world-map {
+    width: 100%;
+    height: 600px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+    background: #1a2332;
+}
+
+#world-map-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+}
+
+#world-map-canvas:active {
+    cursor: grabbing;
+}
+
+.map-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 1000;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.map-tooltip h4 {
+    margin: 0 0 8px 0;
+    color: var(--accent-gold);
+    font-size: 1rem;
+}
+
+.map-tooltip p {
+    margin: 4px 0;
+}
+
+/* ISS Tracker Widget (Home Section) */
+.iss-tracker-widget {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.iss-status {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.status-label {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.status-value {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--accent-gold);
+}
+
+.iss-speed {
+    text-align: center;
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
 /* Cupola Section */
 .cupola-section {
     background: linear-gradient(180deg, #e8f4f8 0%, #ffffff 100%);
@@ -1104,6 +1271,33 @@ footer p {
     .controls {
         flex-direction: column;
     }
+
+    .map-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .world-map {
+        height: 400px;
+    }
+
+    .map-info-panel {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+
+    .map-controls {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .map-btn {
+        flex: 1;
+        min-width: 150px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1121,6 +1315,19 @@ footer p {
 
     .section-header h2 {
         font-size: 1.8rem;
+    }
+
+    .map-info-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .world-map {
+        height: 350px;
+    }
+
+    .iss-status {
+        flex-direction: column;
+        gap: 0.5rem;
     }
 
     .benefits-tabs {
