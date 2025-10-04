@@ -7,6 +7,14 @@
     <title>Orbital Perspectives - Your Journey to the Stars, for Earth</title>
     <link rel="stylesheet" href="leaflet/leaflet.css"/>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'VT323';
+            src: url('VT323-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
 </head>
 <body>
     <!-- Header -->
@@ -20,10 +28,18 @@
             <a href="#iss-timeline" class="nav-link">Timeline</a>
             <a href="#cupola" class="nav-link">The Cupola</a>
             <a href="#nbl" class="nav-link">The NBL</a>
+            <a href="#ergonomics" class="nav-link">Ergonomics</a>
+            <a href="#games" class="nav-link">Games</a>
+            <a href="#habitats" class="nav-link">Habitats</a>
+            <a href="#satellites" class="nav-link">Satellites</a>
+            <a href="#exploration" class="nav-link">Exploration</a>
             <a href="#gallery" class="nav-link">Gallery</a>
             <a href="#benefits" class="nav-link">Earth Benefits</a>
             <a href="#about" class="nav-link">About</a>
         </nav>
+        <div class="theme-switcher">
+            <button id="theme-btn" aria-label="Change theme" title="Change theme">🎨</button>
+        </div>
         <button id="burger-menu" aria-label="Toggle navigation menu">
             <span></span>
             <span></span>
@@ -284,6 +300,204 @@
                             <button id="start-task-btn" class="task-btn">Start Training Task</button>
                             <div id="task-feedback" class="task-feedback"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ergonomics and Human Factors Section -->
+        <section id="ergonomics" class="section ergonomics-section">
+            <div class="section-header">
+                <h2>Ergonomics & Human Factors</h2>
+                <p class="section-subtitle">Designing for Space and Beyond</p>
+            </div>
+            <div class="ergonomics-content">
+                <div class="ergo-intro">
+                    <p>Living and working in space presents unique ergonomic challenges. Every tool, workspace, 
+                    and living area must be designed for microgravity, ensuring astronaut safety, efficiency, and comfort.</p>
+                </div>
+                <div class="ergo-grid">
+                    <div class="ergo-card">
+                        <div class="ergo-icon">🔧</div>
+                        <h3>Tool Design</h3>
+                        <p>Space tools must work in zero-gravity without floating away. Velcro, magnets, and tethers keep everything secure.</p>
+                    </div>
+                    <div class="ergo-card">
+                        <div class="ergo-icon">🪑</div>
+                        <h3>Workspace Layout</h3>
+                        <p>ISS workstations use foot restraints and handrails, allowing astronauts to work in any orientation.</p>
+                    </div>
+                    <div class="ergo-card">
+                        <div class="ergo-icon">💪</div>
+                        <h3>Exercise Systems</h3>
+                        <p>Custom exercise equipment prevents muscle and bone loss, crucial for long-duration missions.</p>
+                    </div>
+                    <div class="ergo-card">
+                        <div class="ergo-icon">🧠</div>
+                        <h3>Cognitive Load</h3>
+                        <p>Interface design minimizes mental fatigue during complex operations in stressful environments.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Games Section -->
+        <section id="games" class="section games-section">
+            <div class="section-header">
+                <h2>Space Training Games</h2>
+                <p class="section-subtitle">Test Your Astronaut Skills</p>
+            </div>
+            <div class="games-content">
+                <div class="games-grid">
+                    <div class="game-card">
+                        <h3>🎯 Docking Challenge</h3>
+                        <p>Guide your spacecraft to dock with the ISS. Precision and timing are critical!</p>
+                        <button class="game-btn" onclick="alert('Docking simulator coming soon!')">Play Now</button>
+                    </div>
+                    <div class="game-card">
+                        <h3>🔩 Repair Mission</h3>
+                        <p>Fix equipment on the ISS exterior during a simulated spacewalk.</p>
+                        <button class="game-btn" onclick="alert('Repair mission coming soon!')">Play Now</button>
+                    </div>
+                    <div class="game-card">
+                        <h3>🌍 Earth Observer</h3>
+                        <p>Identify geographical features and natural phenomena from orbit.</p>
+                        <button class="game-btn" onclick="alert('Earth observer game coming soon!')">Play Now</button>
+                    </div>
+                    <div class="game-card">
+                        <h3>🚀 Launch Sequence</h3>
+                        <p>Execute a perfect rocket launch sequence. Every second counts!</p>
+                        <button class="game-btn" onclick="alert('Launch sequence coming soon!')">Play Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Habitats Section -->
+        <section id="habitats" class="section habitats-section">
+            <div class="section-header">
+                <h2>Space Habitats</h2>
+                <p class="section-subtitle">Homes Away from Home</p>
+            </div>
+            <div class="habitats-content">
+                <div class="habitat-grid">
+                    <div class="habitat-card">
+                        <h3>🛰️ International Space Station</h3>
+                        <div class="habitat-stats">
+                            <span>📏 Length: 109m</span>
+                            <span>⚖️ Mass: 420,000 kg</span>
+                            <span>👥 Crew: 6-7</span>
+                        </div>
+                        <p>The largest human-made structure in space, continuously inhabited since 2000.</p>
+                    </div>
+                    <div class="habitat-card">
+                        <h3>🌙 Lunar Gateway</h3>
+                        <div class="habitat-stats">
+                            <span>📍 Location: Lunar orbit</span>
+                            <span>🚧 Status: Under construction</span>
+                            <span>👥 Crew: 4</span>
+                        </div>
+                        <p>Future space station orbiting the Moon, supporting lunar and deep space exploration.</p>
+                    </div>
+                    <div class="habitat-card">
+                        <h3>🔴 Mars Habitats</h3>
+                        <div class="habitat-stats">
+                            <span>🏗️ Type: Surface modules</span>
+                            <span>🛡️ Protection: Radiation shielding</span>
+                            <span>👥 Crew: 4-6</span>
+                        </div>
+                        <p>Planned habitats for Mars missions, designed to withstand harsh Martian conditions.</p>
+                    </div>
+                    <div class="habitat-card">
+                        <h3>🏠 Tiangong Station</h3>
+                        <div class="habitat-stats">
+                            <span>🇨🇳 Country: China</span>
+                            <span>📅 Operational: 2022</span>
+                            <span>👥 Crew: 3</span>
+                        </div>
+                        <p>China's modular space station in low Earth orbit, conducting scientific research.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Satellites Section -->
+        <section id="satellites" class="section satellites-section">
+            <div class="section-header">
+                <h2>Manmade Satellites</h2>
+                <p class="section-subtitle">Eyes in the Sky</p>
+            </div>
+            <div class="satellites-content">
+                <div class="satellites-intro">
+                    <p>Thousands of satellites orbit Earth, providing essential services from GPS navigation 
+                    to weather forecasting, communications, and Earth observation.</p>
+                </div>
+                <div class="satellites-grid">
+                    <div class="satellite-card">
+                        <div class="sat-icon">📡</div>
+                        <h3>Communication Satellites</h3>
+                        <p>Enable global telecommunications, internet, and TV broadcasting. Examples: Starlink, Iridium.</p>
+                        <span class="sat-count">~2,000 active</span>
+                    </div>
+                    <div class="satellite-card">
+                        <div class="sat-icon">🌦️</div>
+                        <h3>Weather Satellites</h3>
+                        <p>Monitor atmospheric conditions and track storms. Examples: GOES, NOAA satellites.</p>
+                        <span class="sat-count">~200 active</span>
+                    </div>
+                    <div class="satellite-card">
+                        <div class="sat-icon">🗺️</div>
+                        <h3>Navigation Satellites</h3>
+                        <p>Provide positioning and timing services. Examples: GPS, GLONASS, Galileo.</p>
+                        <span class="sat-count">~100 active</span>
+                    </div>
+                    <div class="satellite-card">
+                        <div class="sat-icon">🔭</div>
+                        <h3>Earth Observation</h3>
+                        <p>Monitor climate, land use, and natural resources. Examples: Landsat, Sentinel.</p>
+                        <span class="sat-count">~800 active</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Space Exploration Section -->
+        <section id="exploration" class="section exploration-section">
+            <div class="section-header">
+                <h2>Space Exploration</h2>
+                <p class="section-subtitle">Pushing the Boundaries</p>
+            </div>
+            <div class="exploration-content">
+                <div class="exploration-timeline">
+                    <div class="explore-item">
+                        <div class="explore-year">1969</div>
+                        <h3>🌙 Apollo 11</h3>
+                        <p>First humans land on the Moon. "One small step for man..."</p>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-year">1990</div>
+                        <h3>🔭 Hubble Space Telescope</h3>
+                        <p>Revolutionary observatory reveals the universe in unprecedented detail.</p>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-year">2012</div>
+                        <h3>🚀 Curiosity Rover</h3>
+                        <p>Advanced rover lands on Mars, searching for signs of past life.</p>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-year">2021</div>
+                        <h3>🚁 Ingenuity Helicopter</h3>
+                        <p>First powered flight on another planet, opening new exploration possibilities.</p>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-year">2022</div>
+                        <h3>🌌 James Webb Telescope</h3>
+                        <p>Most powerful space telescope ever built, peering into the early universe.</p>
+                    </div>
+                    <div class="explore-item">
+                        <div class="explore-year">Future</div>
+                        <h3>🔴 Mars Mission</h3>
+                        <p>Planned human missions to Mars in the 2030s will make history.</p>
                     </div>
                 </div>
             </div>
