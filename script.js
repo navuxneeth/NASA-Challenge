@@ -72,46 +72,323 @@ const poiData = {
         title: 'Wildfire Monitoring: California',
         description: 'Astronaut imagery helps ground teams track active wildfires, providing crucial intelligence for containment efforts and disaster relief. Real-time observations from the ISS allow for rapid response and coordination of firefighting resources.',
         data: 'Fire spread rate: 2.3 acres/min | Area affected: 15,000+ acres | Wind speed: 35 mph',
-        link: 'https://earthobservatory.nasa.gov/topic/fires'
+        link: 'https://earthobservatory.nasa.gov/topic/fires',
+        coords: [37.0, -119.0] // California
     },
     hurricane: {
         title: 'Hurricane Tracking: Atlantic Basin',
         description: 'ISS cameras capture high-resolution images of developing hurricanes, helping meteorologists predict storm paths and intensity. These observations are critical for early warning systems and evacuation planning.',
         data: 'Wind speed: 140 mph | Category: 4 | Diameter: 350 miles | Movement: 15 mph NW',
-        link: 'https://earthobservatory.nasa.gov/topic/severe-storms'
+        link: 'https://earthobservatory.nasa.gov/topic/severe-storms',
+        coords: [25.0, -70.0] // Atlantic
     },
     deforestation: {
         title: 'Deforestation Monitoring: Amazon Basin',
         description: 'Regular ISS photography tracks deforestation patterns in critical rainforest regions. This data helps environmental agencies monitor illegal logging and assess the impact on global climate systems.',
         data: 'Area deforested: 2,500 sq km/year | Forest coverage change: -3.2% | CO2 impact: significant',
-        link: 'https://earthobservatory.nasa.gov/topic/land'
+        link: 'https://earthobservatory.nasa.gov/topic/land',
+        coords: [-3.0, -60.0] // Amazon
     }
 };
 
-// POI Interaction
-const pois = document.querySelectorAll('.poi');
+// Initialize Cupola Globe Map with POI markers
+let cupolaGlobe = null;
+
+function initCupolaGlobe() {
+    const globeContainer = document.getElementById('cupola-globe-map');
+    if (!globeContainer) return;
+
+    // Initialize Leaflet map for cupola view
+    cupolaGlobe = L.map('cupola-globe-map', {
+        center: [20, 0],
+        zoom: 2,
+        zoomControl: false,
+        minZoom: 2,
+        maxZoom: 6,
+        dragging: true,
+        scrollWheelZoom: false
+    });
+
+    // Add satellite imagery for realistic Earth view
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri',
+        maxZoom: 19
+    }).addTo(cupolaGlobe);
+
+    // Add POI markers to the globe
+    Object.keys(poiData).forEach(poiKey => {
+        const poi = poiData[poiKey];
+        const poiIcon = L.divIcon({
+            html: '<div class="poi-globe-marker"></div>',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+            className: ''
+        });
+
+        const marker = L.marker(poi.coords, { icon: poiIcon }).addTo(cupolaGlobe);
+        
+        // Add click event to show POI panel
+        marker.on('click', () => {
+            showPOIPanel(poiKey);
+        });
+        
+        // Add tooltip
+        marker.bindTooltip(poi.title.split(':')[0], {
+            permanent: false,
+            direction: 'top'
+        });
+    });
+
+    console.log('🌍 Cupola Globe initialized with real Earth imagery!');
+}
+
+// ============================================
+// ISS Timeline Functionality
+// ============================================
+
+let currentOrbitIndex = 0;
+let orbitScheduleData = [];
+const ORBIT_PERIOD = 92.68; // ISS orbital period in minutes
+
+function initISSTimeline() {
+    // Generate orbit schedule for today (16 orbits)
+    generateOrbitSchedule();
+    
+    // Update timeline displays
+    updateTimelineDisplay();
+    
+    // Setup timeline controls
+    setupTimelineControls();
+    
+    // Update every second
+    setInterval(updateTimelineDisplay, 1000);
+    
+    console.log('⏰ ISS Timeline initialized!');
+}
+
+function generateOrbitSchedule() {
+    const now = new Date();
+    const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    
+    orbitScheduleData = [];
+    let orbitTime = new Date(startOfDay);
+    
+    // Generate approximately 16 orbits for today
+    for (let i = 1; i <= 16; i++) {
+        const orbitStart = new Date(orbitTime);
+        const orbitEnd = new Date(orbitTime.getTime() + ORBIT_PERIOD * 60000);
+        const sunriseTime = new Date(orbitTime.getTime() + (ORBIT_PERIOD / 2) * 60000);
+        const sunsetTime = new Date(orbitEnd);
+        
+        orbitScheduleData.push({
+            number: i,
+            startTime: orbitStart,
+            endTime: orbitEnd,
+            sunriseTime: sunriseTime,
+            sunsetTime: sunsetTime,
+            completed: orbitEnd < now
+        });
+        
+        orbitTime = orbitEnd;
+    }
+    
+    // Find current orbit
+    currentOrbitIndex = orbitScheduleData.findIndex(orbit => 
+        now >= orbit.startTime && now <= orbit.endTime
+    );
+    
+    if (currentOrbitIndex === -1) {
+        currentOrbitIndex = orbitScheduleData.length - 1;
+    }
+    
+    // Render orbit schedule
+    renderOrbitSchedule();
+}
+
+function renderOrbitSchedule() {
+    const scheduleContainer = document.getElementById('orbit-schedule');
+    if (!scheduleContainer) return;
+    
+    const now = new Date();
+    
+    scheduleContainer.innerHTML = orbitScheduleData.map((orbit, index) => {
+        const isActive = index === currentOrbitIndex;
+        const statusClass = orbit.completed ? 'completed' : (isActive ? 'active' : '');
+        
+        return `
+            <div class="orbit-item ${statusClass}" data-orbit="${index}">
+                <div class="orbit-item-header">
+                    <span class="orbit-number">Orbit #${orbit.number}</span>
+                    <span class="orbit-time">${formatTime(orbit.startTime)} - ${formatTime(orbit.endTime)}</span>
+                </div>
+                <div class="orbit-details">
+                    <span>🌅 ${formatTime(orbit.sunriseTime)}</span>
+                    <span>🌇 ${formatTime(orbit.sunsetTime)}</span>
+                    <span>${orbit.completed ? '✓ Completed' : (isActive ? '⚡ In Progress' : '⏳ Upcoming')}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    // Scroll to active orbit
+    const activeOrbit = scheduleContainer.querySelector('.orbit-item.active');
+    if (activeOrbit) {
+        activeOrbit.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+}
+
+function updateTimelineDisplay() {
+    const now = new Date();
+    
+    // Update current orbit if needed
+    const newOrbitIndex = orbitScheduleData.findIndex(orbit => 
+        now >= orbit.startTime && now <= orbit.endTime
+    );
+    
+    if (newOrbitIndex !== -1 && newOrbitIndex !== currentOrbitIndex) {
+        currentOrbitIndex = newOrbitIndex;
+        renderOrbitSchedule();
+    }
+    
+    if (currentOrbitIndex === -1 || currentOrbitIndex >= orbitScheduleData.length) return;
+    
+    const currentOrbit = orbitScheduleData[currentOrbitIndex];
+    
+    // Calculate orbit progress
+    const orbitDuration = currentOrbit.endTime - currentOrbit.startTime;
+    const orbitElapsed = now - currentOrbit.startTime;
+    const orbitProgress = Math.max(0, Math.min(100, (orbitElapsed / orbitDuration) * 100));
+    
+    // Update circular progress
+    const progressCircle = document.getElementById('orbit-progress-circle');
+    const progressText = document.getElementById('orbit-percent');
+    if (progressCircle && progressText) {
+        const circumference = 565.48;
+        const offset = circumference - (orbitProgress / 100) * circumference;
+        progressCircle.style.strokeDashoffset = offset;
+        progressText.textContent = `${Math.round(orbitProgress)}%`;
+    }
+    
+    // Update ISS icon position on orbit circle
+    const issIcon = document.getElementById('iss-orbit-icon');
+    if (issIcon) {
+        const angle = (orbitProgress / 100) * 360;
+        const radius = 90;
+        const x = 100 + radius * Math.cos((angle - 90) * Math.PI / 180);
+        const y = 100 + radius * Math.sin((angle - 90) * Math.PI / 180);
+        issIcon.style.left = `${x}%`;
+        issIcon.style.top = `${y}%`;
+    }
+    
+    // Calculate time until next sunrise
+    const sunriseElement = document.getElementById('timeline-sunrise');
+    if (sunriseElement && currentOrbit.sunriseTime > now) {
+        const timeToSunrise = currentOrbit.sunriseTime - now;
+        sunriseElement.textContent = formatDuration(timeToSunrise);
+    } else if (sunriseElement) {
+        sunriseElement.textContent = 'Passed';
+    }
+    
+    // Calculate time until next sunset
+    const sunsetElement = document.getElementById('timeline-sunset');
+    if (sunsetElement && currentOrbit.sunsetTime > now) {
+        const timeToSunset = currentOrbit.sunsetTime - now;
+        sunsetElement.textContent = formatDuration(timeToSunset);
+    } else if (sunsetElement) {
+        sunsetElement.textContent = 'Passed';
+    }
+    
+    // Time elapsed in current orbit
+    const elapsedElement = document.getElementById('timeline-elapsed');
+    if (elapsedElement) {
+        elapsedElement.textContent = formatDuration(orbitElapsed);
+    }
+    
+    // Orbits completed today
+    const orbitsElement = document.getElementById('timeline-orbits');
+    if (orbitsElement) {
+        const completedOrbits = orbitScheduleData.filter(o => o.completed).length;
+        orbitsElement.textContent = `${completedOrbits} / 16`;
+    }
+}
+
+function setupTimelineControls() {
+    const prevBtn = document.getElementById('timeline-prev');
+    const currentBtn = document.getElementById('timeline-current');
+    const nextBtn = document.getElementById('timeline-next');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentOrbitIndex > 0) {
+                currentOrbitIndex--;
+                renderOrbitSchedule();
+                updateTimelineDisplay();
+            }
+        });
+    }
+    
+    if (currentBtn) {
+        currentBtn.addEventListener('click', () => {
+            const now = new Date();
+            currentOrbitIndex = orbitScheduleData.findIndex(orbit => 
+                now >= orbit.startTime && now <= orbit.endTime
+            );
+            if (currentOrbitIndex === -1) currentOrbitIndex = 0;
+            renderOrbitSchedule();
+            updateTimelineDisplay();
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentOrbitIndex < orbitScheduleData.length - 1) {
+                currentOrbitIndex++;
+                renderOrbitSchedule();
+                updateTimelineDisplay();
+            }
+        });
+    }
+}
+
+function formatTime(date) {
+    return date.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false 
+    });
+}
+
+function formatDuration(milliseconds) {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+function showPOIPanel(poiType) {
+    const data = poiData[poiType];
+    const poiPanel = document.getElementById('poi-panel');
+    
+    if (data && poiPanel) {
+        document.getElementById('poi-title').textContent = data.title;
+        document.getElementById('poi-description').textContent = data.description;
+        document.getElementById('poi-data').textContent = data.data;
+        document.getElementById('poi-learn-more').href = data.link;
+        
+        // Simulate image carousel
+        const poiImages = document.getElementById('poi-images');
+        poiImages.innerHTML = '<p style="color: #999;">High-resolution ISS imagery</p>';
+        
+        poiPanel.classList.add('active');
+        
+        // Update with real data if available
+        updatePOIWithRealData(poiType);
+    }
+}
+
+// Close panel handlers
 const poiPanel = document.getElementById('poi-panel');
 const closePanel = document.querySelector('.close-panel');
-
-pois.forEach(poi => {
-    poi.addEventListener('click', () => {
-        const poiType = poi.getAttribute('data-poi');
-        const data = poiData[poiType];
-
-        if (data) {
-            document.getElementById('poi-title').textContent = data.title;
-            document.getElementById('poi-description').textContent = data.description;
-            document.getElementById('poi-data').textContent = data.data;
-            document.getElementById('poi-learn-more').href = data.link;
-            
-            // Simulate image carousel
-            const poiImages = document.getElementById('poi-images');
-            poiImages.innerHTML = '<p style="color: #999;">High-resolution ISS imagery</p>';
-            
-            poiPanel.classList.add('active');
-        }
-    });
-});
 
 if (closePanel) {
     closePanel.addEventListener('click', () => {
@@ -121,9 +398,9 @@ if (closePanel) {
 
 // Close panel when clicking outside
 document.addEventListener('click', (e) => {
-    if (poiPanel.classList.contains('active') && 
+    if (poiPanel && poiPanel.classList.contains('active') && 
         !poiPanel.contains(e.target) && 
-        !e.target.closest('.poi')) {
+        !e.target.closest('.leaflet-marker-icon')) {
         poiPanel.classList.remove('active');
     }
 });
@@ -613,6 +890,12 @@ window.addEventListener('load', () => {
     // Initialize interactive world map
     initISSWorldMap();
     
+    // Initialize cupola globe with real Earth imagery
+    initCupolaGlobe();
+    
+    // Initialize ISS timeline
+    initISSTimeline();
+    
     // Load live events
     loadLiveEvents();
     
@@ -639,6 +922,7 @@ let issMarker = null;
 let issPosition = { lat: 0, lon: 0 };
 let pathCoordinates = [];
 let pathPolyline = null;
+let pathEndMarker = null; // Pulsing circle at the end of the path
 let showPath = true;
 
 function initISSWorldMap() {
@@ -702,6 +986,15 @@ function initISSWorldMap() {
         opacity: 0.7,
         smoothFactor: 1
     }).addTo(worldMap);
+    
+    // Initialize path end marker (pulsing circle)
+    const pathEndIcon = L.divIcon({
+        html: '<div class="path-end-marker"></div>',
+        iconSize: [20, 20],
+        iconAnchor: [10, 10],
+        className: ''
+    });
+    pathEndMarker = L.marker([0, 0], { icon: pathEndIcon }).addTo(worldMap);
     
     // Setup control buttons
     setupMapControls();
@@ -800,6 +1093,12 @@ function updateISSOnMap(position) {
     if (pathPolyline && showPath) {
         pathPolyline.setLatLngs(pathCoordinates);
     }
+    
+    // Update path end marker to show at the latest position (end of path)
+    if (pathEndMarker && pathCoordinates.length > 0) {
+        const latestPosition = pathCoordinates[pathCoordinates.length - 1];
+        pathEndMarker.setLatLng(latestPosition);
+    }
 }
 
 
@@ -819,8 +1118,10 @@ function setupMapControls() {
             if (pathPolyline) {
                 if (showPath) {
                     pathPolyline.addTo(worldMap);
+                    if (pathEndMarker) pathEndMarker.addTo(worldMap);
                 } else {
                     worldMap.removeLayer(pathPolyline);
+                    if (pathEndMarker) worldMap.removeLayer(pathEndMarker);
                 }
             }
             togglePathBtn.textContent = showPath ? '🛰️ Hide Path' : '🛰️ Show Path';
