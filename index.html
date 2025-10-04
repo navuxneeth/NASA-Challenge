@@ -17,6 +17,7 @@
         </div>
         <nav id="nav">
             <a href="#home" class="nav-link">Home</a>
+            <a href="#iss-timeline" class="nav-link">Timeline</a>
             <a href="#cupola" class="nav-link">The Cupola</a>
             <a href="#nbl" class="nav-link">The NBL</a>
             <a href="#gallery" class="nav-link">Gallery</a>
@@ -55,10 +56,10 @@
                         <span class="status-label">Speed: 17,900 mph</span>
                     </div>
                 </div>
-                <button class="cta-button" onclick="scrollToSection('iss-map')">
+                <button class="cta-button ripple" onclick="scrollToSection('iss-map')">
                     Track ISS on Map
                 </button>
-                <button class="cta-button" onclick="scrollToSection('cupola')" style="margin-left: 15px;">
+                <button class="cta-button ripple" onclick="scrollToSection('cupola')" style="margin-left: 15px;">
                     Begin Your Training
                 </button>
             </div>
@@ -117,6 +118,68 @@
             </div>
         </section>
 
+        <!-- ISS Timeline Section -->
+        <section id="iss-timeline" class="section timeline-section">
+            <div class="section-header">
+                <h2>⏰ ISS Orbital Timeline</h2>
+                <p class="section-subtitle">Track the station's journey around Earth in real-time</p>
+            </div>
+            <div class="timeline-content">
+                <div class="timeline-visualization">
+                    <div class="orbit-progress-container">
+                        <svg class="orbit-circle" viewBox="0 0 200 200">
+                            <circle cx="100" cy="100" r="90" class="orbit-track"></circle>
+                            <circle cx="100" cy="100" r="90" class="orbit-progress" id="orbit-progress-circle"></circle>
+                            <text x="100" y="95" text-anchor="middle" class="orbit-text-large" id="orbit-percent">0%</text>
+                            <text x="100" y="115" text-anchor="middle" class="orbit-text-small">Complete</text>
+                        </svg>
+                        <div class="iss-icon-orbit" id="iss-orbit-icon">🛰️</div>
+                    </div>
+                    <div class="timeline-stats">
+                        <div class="timeline-stat-card">
+                            <div class="stat-icon">🌅</div>
+                            <div class="stat-content">
+                                <h4>Next Sunrise</h4>
+                                <p class="stat-value" id="timeline-sunrise">--:--</p>
+                            </div>
+                        </div>
+                        <div class="timeline-stat-card">
+                            <div class="stat-icon">🌇</div>
+                            <div class="stat-content">
+                                <h4>Next Sunset</h4>
+                                <p class="stat-value" id="timeline-sunset">--:--</p>
+                            </div>
+                        </div>
+                        <div class="timeline-stat-card">
+                            <div class="stat-icon">⏱️</div>
+                            <div class="stat-content">
+                                <h4>Time in Orbit</h4>
+                                <p class="stat-value" id="timeline-elapsed">--:--</p>
+                            </div>
+                        </div>
+                        <div class="timeline-stat-card">
+                            <div class="stat-icon">🔄</div>
+                            <div class="stat-content">
+                                <h4>Orbits Today</h4>
+                                <p class="stat-value" id="timeline-orbits">0</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="timeline-interactive">
+                    <h3>Today's Orbit Schedule</h3>
+                    <div class="orbit-schedule" id="orbit-schedule">
+                        <!-- Dynamic orbit schedule items will be added here -->
+                    </div>
+                    <div class="timeline-controls">
+                        <button class="timeline-btn" id="timeline-prev">← Previous Orbit</button>
+                        <button class="timeline-btn primary" id="timeline-current">Current Orbit</button>
+                        <button class="timeline-btn" id="timeline-next">Next Orbit →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- The Cupola Section -->
         <section id="cupola" class="section cupola-section">
             <div class="section-header">
@@ -144,20 +207,8 @@
                 <div class="cupola-viewer">
                     <div class="cupola-interior">
                         <div class="earth-view" id="earth-view">
-                            <div class="earth-rotation">
-                                <div class="poi poi-1" data-poi="wildfires" style="top: 35%; left: 20%;">
-                                    <div class="poi-marker"></div>
-                                    <div class="poi-pulse"></div>
-                                </div>
-                                <div class="poi poi-2" data-poi="hurricane" style="top: 45%; left: 60%;">
-                                    <div class="poi-marker"></div>
-                                    <div class="poi-pulse"></div>
-                                </div>
-                                <div class="poi poi-3" data-poi="deforestation" style="top: 60%; left: 35%;">
-                                    <div class="poi-marker"></div>
-                                    <div class="poi-pulse"></div>
-                                </div>
-                            </div>
+                            <!-- Real interactive globe map -->
+                            <div id="cupola-globe-map"></div>
                         </div>
                         <div class="cupola-frame"></div>
                     </div>

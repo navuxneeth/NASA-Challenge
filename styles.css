@@ -414,20 +414,270 @@ nav {
     background: rgba(0, 0, 0, 0.9);
 }
 
-/* ISS marker pulse animation */
+/* ISS marker - no animation, simple display */
 .iss-marker {
-    animation: pulse 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 5px #ffd700);
 }
 
-@keyframes pulse {
+/* Path end marker - pulsing circle animation */
+.path-end-marker {
+    width: 20px;
+    height: 20px;
+    background: #ffd700;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 215, 0, 0.5);
+    animation: pathEndPulse 2s ease-in-out infinite;
+}
+
+@keyframes pathEndPulse {
     0%, 100% {
         transform: scale(1);
-        filter: drop-shadow(0 0 5px #ffd700);
+        box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
     }
     50% {
-        transform: scale(1.1);
-        filter: drop-shadow(0 0 15px #ffd700);
+        transform: scale(1.3);
+        box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
     }
+}
+
+/* ISS Timeline Section */
+.timeline-section {
+    background: linear-gradient(135deg, #0a1929 0%, #1a2332 100%);
+    color: var(--text-light);
+}
+
+.timeline-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.timeline-visualization {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.orbit-progress-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.orbit-circle {
+    width: 100%;
+    height: auto;
+    transform: rotate(-90deg);
+}
+
+.orbit-track {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 8;
+}
+
+.orbit-progress {
+    fill: none;
+    stroke: var(--accent-gold);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 565.48;
+    stroke-dashoffset: 565.48;
+    transition: stroke-dashoffset 1s ease;
+    filter: drop-shadow(0 0 10px var(--accent-gold));
+}
+
+.orbit-text-large {
+    fill: var(--accent-gold);
+    font-size: 32px;
+    font-weight: bold;
+    transform: rotate(90deg);
+    transform-origin: 100px 100px;
+}
+
+.orbit-text-small {
+    fill: rgba(255, 255, 255, 0.8);
+    font-size: 14px;
+    transform: rotate(90deg);
+    transform-origin: 100px 100px;
+}
+
+.iss-icon-orbit {
+    position: absolute;
+    font-size: 32px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px #ffd700);
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+    50% { transform: translate(-50%, -50%) translateY(-10px); }
+}
+
+.timeline-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.timeline-stat-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timeline-stat-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.stat-content h4 {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.stat-value {
+    margin: 0.5rem 0 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-gold);
+}
+
+.timeline-interactive {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timeline-interactive h3 {
+    margin-bottom: 1.5rem;
+    color: var(--accent-gold);
+    font-size: 1.5rem;
+}
+
+.orbit-schedule {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    padding-right: 0.5rem;
+}
+
+.orbit-schedule::-webkit-scrollbar {
+    width: 6px;
+}
+
+.orbit-schedule::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.orbit-schedule::-webkit-scrollbar-thumb {
+    background: var(--accent-gold);
+    border-radius: 10px;
+}
+
+.orbit-item {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.orbit-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+}
+
+.orbit-item.active {
+    border-left-color: var(--accent-gold);
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.orbit-item.completed {
+    opacity: 0.6;
+}
+
+.orbit-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.orbit-number {
+    font-weight: bold;
+    color: var(--accent-gold);
+}
+
+.orbit-time {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.orbit-details {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.timeline-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.timeline-btn {
+    flex: 1;
+    padding: 0.8rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.timeline-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.timeline-btn.primary {
+    background: var(--accent-gold);
+    color: var(--dark-blue);
+    border-color: var(--accent-gold);
+}
+
+.timeline-btn.primary:hover {
+    background: #ffed4e;
 }
 
 /* ISS Tracker Widget (Home Section) */
@@ -523,18 +773,14 @@ nav {
     width: 100%;
     height: 100%;
     position: relative;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><defs><radialGradient id="earth" cx="50%" cy="50%"><stop offset="0%" style="stop-color:%234a90e2"/><stop offset="70%" style="stop-color:%232c5aa0"/><stop offset="100%" style="stop-color:%231a3a6e"/></radialGradient></defs><circle cx="400" cy="300" r="250" fill="url(%23earth)"/><path d="M200,300 Q250,250 300,300 T400,300" fill="none" stroke="%2398d98e" stroke-width="20" opacity="0.6"/><path d="M500,200 Q450,250 400,300 T300,400" fill="none" stroke="%2398d98e" stroke-width="15" opacity="0.5"/><ellipse cx="600" cy="250" rx="50" ry="30" fill="%23ffffff" opacity="0.7"/></svg>') center/cover;
+    background: #001a33;
 }
 
-.earth-rotation {
+/* Cupola globe map container */
+#cupola-globe-map {
     width: 100%;
     height: 100%;
-    animation: earthRotate 60s linear infinite;
-}
-
-@keyframes earthRotate {
-    from { transform: translateX(0); }
-    to { transform: translateX(-10%); }
+    border-radius: 10px;
 }
 
 .cupola-frame {
@@ -550,41 +796,32 @@ nav {
     pointer-events: none;
 }
 
-.poi {
-    position: absolute;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.poi-marker {
-    width: 20px;
-    height: 20px;
+/* POI markers on the real globe */
+.poi-globe-marker {
+    width: 24px;
+    height: 24px;
     background: var(--secondary-color);
     border-radius: 50%;
-    border: 2px solid var(--text-light);
-    box-shadow: 0 0 10px rgba(252, 61, 33, 0.5);
+    border: 3px solid var(--text-light);
+    box-shadow: 0 0 15px rgba(252, 61, 33, 0.8);
+    animation: poiPulse 2s ease-out infinite;
 }
 
-.poi-pulse {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--secondary-color);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 2s ease-out infinite;
-}
-
-@keyframes pulse {
+@keyframes poiPulse {
     0% {
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: scale(0.8);
         opacity: 1;
+        box-shadow: 0 0 0 0 rgba(252, 61, 33, 0.7);
+    }
+    50% {
+        transform: scale(1);
+        opacity: 1;
+        box-shadow: 0 0 0 10px rgba(252, 61, 33, 0);
     }
     100% {
-        transform: translate(-50%, -50%) scale(2);
-        opacity: 0;
+        transform: scale(0.8);
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(252, 61, 33, 0);
     }
 }
 
@@ -1352,6 +1589,47 @@ footer p {
     }
 }
 
+/* Enhanced Interactive Elements */
+.interactive-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.interactive-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.map-btn:active,
+.timeline-btn:active,
+.cta-button:active {
+    transform: scale(0.95);
+}
+
+/* Ripple effect for buttons */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active::after {
+    width: 300px;
+    height: 300px;
+}
+
 /* Utility Classes */
 .hidden {
     display: none !important;
@@ -1657,5 +1935,23 @@ footer p {
     
     .events-list {
         max-height: 200px;
+    }
+    
+    /* Timeline responsive */
+    .timeline-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .timeline-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-controls {
+        flex-direction: column;
+    }
+    
+    .orbit-progress-container {
+        max-width: 300px;
     }
 }
