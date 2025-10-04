@@ -1189,3 +1189,97 @@ function centerOnISS() {
         duration: 1
     });
 }
+
+// ============================================
+// THEME SWITCHER
+// ============================================
+
+const themes = ['night', 'ocean', 'sunset'];
+let currentThemeIndex = 0;
+
+// Load saved theme or default to night (default)
+const savedTheme = localStorage.getItem('orbitalTheme') || 'night';
+currentThemeIndex = themes.indexOf(savedTheme);
+if (currentThemeIndex === -1) currentThemeIndex = 0;
+
+// Apply theme on load
+function applyTheme(theme) {
+    if (theme === 'night') {
+        document.documentElement.removeAttribute('data-theme');
+    } else {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
+    localStorage.setItem('orbitalTheme', theme);
+}
+
+// Initialize theme
+applyTheme(themes[currentThemeIndex]);
+
+// Theme button handler
+const themeBtn = document.getElementById('theme-btn');
+if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+        currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+        const newTheme = themes[currentThemeIndex];
+        applyTheme(newTheme);
+        
+        // Visual feedback
+        const themeNames = {
+            'night': 'Night',
+            'ocean': 'Ocean',
+            'sunset': 'Sunset'
+        };
+        themeBtn.textContent = '�� ' + themeNames[newTheme];
+        
+        setTimeout(() => {
+            themeBtn.textContent = '🎨';
+        }, 1500);
+    });
+}
+
+// ============================================
+// FIX: POI OVERLAY FUNCTIONALITY
+// ============================================
+
+// The issue was that the POI panel needs proper event handling
+// This fix ensures the panel closes correctly and reopens properly
+
+const poiPanelElement = document.getElementById('poi-panel');
+const closePanelBtn = document.querySelector('.close-panel');
+
+// Ensure close button works
+if (closePanelBtn && poiPanelElement) {
+    closePanelBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        poiPanelElement.classList.remove('active');
+    });
+}
+
+// Fix: Prevent panel from closing when clicking inside it
+if (poiPanelElement) {
+    poiPanelElement.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+}
+
+// Enhanced showPOIPanel to ensure proper display
+const originalShowPOIPanel = window.showPOIPanel || showPOIPanel;
+window.showPOIPanel = function(poiType) {
+    // Call original function
+    if (originalShowPOIPanel) {
+        originalShowPOIPanel(poiType);
+    }
+    
+    // Ensure panel is visible and properly positioned
+    const panel = document.getElementById('poi-panel');
+    if (panel) {
+        // Small delay to ensure DOM is updated
+        setTimeout(() => {
+            panel.classList.add('active');
+            panel.style.display = 'block';
+        }, 10);
+    }
+};
+
+console.log('✅ Theme switcher initialized!');
+console.log('✅ POI overlay functionality fixed!');
