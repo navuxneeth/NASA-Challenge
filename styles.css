@@ -883,6 +883,389 @@ nav {
     }
 }
 
+/* Mission Patch Selector */
+.mission-patch-selector {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mission-patch-selector h4 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.patch-options {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.patch-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.patch-option:hover {
+    background: rgba(11, 61, 145, 0.05);
+    border-color: var(--primary-color);
+}
+
+.patch-option input[type="radio"] {
+    display: none;
+}
+
+.patch-option input[type="radio"]:checked + .patch-image {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
+    transform: scale(1.1);
+}
+
+.patch-image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border: 3px solid transparent;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 5px;
+}
+
+.patch-option span {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Live Earth Feed */
+#live-earth-feed {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Cupola HUD Overlay */
+.cupola-hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.cupola-hud > * {
+    pointer-events: auto;
+}
+
+/* Mission Patch Display on HUD */
+.mission-patch-display {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    padding: 5px;
+    border: 2px solid var(--accent-gold);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.mission-patch-display img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+}
+
+/* Camera Reticle */
+.camera-reticle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    border: 2px solid rgba(255, 193, 7, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.camera-reticle::before,
+.camera-reticle::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 193, 7, 0.8);
+}
+
+.camera-reticle::before {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 2px;
+}
+
+.camera-reticle::after {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2px;
+    height: 20px;
+}
+
+/* Mission Objective Display */
+.mission-objective {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    max-width: 350px;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 1rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-gold);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mission-objective h4 {
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.mission-objective .mission-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+}
+
+.mission-objective .mission-category {
+    font-size: 0.85rem;
+    color: var(--accent-gold);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.mission-objective .mission-desc {
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.9;
+}
+
+.mission-status {
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mission-status.in-range {
+    background: rgba(76, 175, 80, 0.3);
+    border: 1px solid rgba(76, 175, 80, 0.8);
+}
+
+.status-icon {
+    font-size: 1.2rem;
+}
+
+.status-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Capture Button */
+.capture-btn {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+    background: rgba(100, 100, 100, 0.8);
+    border: 2px solid rgba(150, 150, 150, 0.8);
+    border-radius: 50px;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.capture-btn:disabled {
+    opacity: 0.6;
+}
+
+.capture-btn.active {
+    background: linear-gradient(135deg, #fc3d21 0%, #ff6b4a 100%);
+    border-color: var(--accent-gold);
+    cursor: pointer;
+    animation: buttonGlow 2s ease-in-out infinite;
+}
+
+.capture-btn.active:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 6px 25px rgba(252, 61, 33, 0.5);
+}
+
+.capture-btn.captured {
+    background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+    border-color: #4caf50;
+}
+
+@keyframes buttonGlow {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 193, 7, 0.5);
+    }
+    50% {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 193, 7, 0.8);
+    }
+}
+
+/* Photo Capture Modal */
+.photo-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    max-width: 700px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: var(--text-dark);
+    color: white;
+    font-size: 1.8rem;
+    border-radius: 50%;
+    cursor: pointer;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    background: var(--secondary-color);
+    transform: rotate(90deg);
+}
+
+.modal-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.modal-image-container {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-image-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.modal-description {
+    margin-bottom: 1.5rem;
+}
+
+.modal-success {
+    color: #4caf50;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.modal-scientific-value {
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(11, 61, 145, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.modal-mission-type {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.modal-learn-more-btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.modal-learn-more-btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
 .poi-panel {
     position: fixed;
     top: 50%;
@@ -2353,5 +2736,52 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focu
     
     .explore-item {
         margin-left: 40px;
+    }
+    
+    /* Mission Patch Selector Mobile */
+    .patch-options {
+        gap: 1rem;
+    }
+    
+    .patch-image {
+        width: 60px;
+        height: 60px;
+    }
+    
+    /* HUD Mobile */
+    .mission-objective {
+        max-width: 280px;
+        font-size: 0.85rem;
+        padding: 0.8rem;
+    }
+    
+    .mission-patch-display {
+        width: 50px;
+        height: 50px;
+        top: 15px;
+        left: 15px;
+    }
+    
+    .camera-reticle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .capture-btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        bottom: 20px;
+    }
+    
+    /* Modal Mobile */
+    .photo-modal .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    
+    .photo-modal .modal-close {
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
     }
 }

@@ -200,13 +200,39 @@
         <section id="cupola" class="section cupola-section">
             <div class="section-header">
                 <h2>The Window to the World</h2>
-                <p class="section-subtitle">Witnessing Earth from Above</p>
+                <p class="section-subtitle">Astronaut Photography Mission</p>
             </div>
             <div class="cupola-content">
+                <!-- Mission Patch Selector -->
+                <div class="mission-patch-selector">
+                    <h4>Choose Your Mission Patch:</h4>
+                    <div class="patch-options">
+                        <label class="patch-option">
+                            <input type="radio" name="mission-patch" value="expedition-70" checked>
+                            <img src="https://www.nasa.gov/wp-content/uploads/2023/03/iss070-s-001.png" alt="Expedition 70" class="patch-image">
+                            <span>Expedition 70</span>
+                        </label>
+                        <label class="patch-option">
+                            <input type="radio" name="mission-patch" value="expedition-71">
+                            <img src="https://www.nasa.gov/wp-content/uploads/2024/05/iss071-s-001.png" alt="Expedition 71" class="patch-image">
+                            <span>Expedition 71</span>
+                        </label>
+                        <label class="patch-option">
+                            <input type="radio" name="mission-patch" value="artemis">
+                            <img src="https://www.nasa.gov/wp-content/uploads/2023/03/artemis-i-mission-patch.png" alt="Artemis" class="patch-image">
+                            <span>Artemis</span>
+                        </label>
+                        <label class="patch-option">
+                            <input type="radio" name="mission-patch" value="crew-8">
+                            <img src="https://www.nasa.gov/wp-content/uploads/2023/11/crew-8-patch.png" alt="Crew-8" class="patch-image">
+                            <span>Crew-8</span>
+                        </label>
+                    </div>
+                </div>
+
                 <div class="cupola-description">
                     <p>
-                        From 250 miles up, astronauts observe our changing planet. 
-                        Explore the view and tap on highlighted regions to uncover their stories.
+                        Experience Earth observation from the ISS Cupola. Monitor live events and participate in citizen science photography missions.
                     </p>
                     <div class="live-events-panel">
                         <h4>🌍 Live Earth Events</h4>
@@ -223,8 +249,22 @@
                 <div class="cupola-viewer">
                     <div class="cupola-interior">
                         <div class="earth-view" id="earth-view">
-                            <!-- Real interactive globe map -->
-                            <div id="cupola-globe-map"></div>
+                            <iframe id="live-earth-feed" src="https://eol.jsc.nasa.gov/ESRS/HDEV/" frameborder="0" allowfullscreen></iframe>
+                            <video id="fallback-earth-video" loop muted autoplay style="display: none; width: 100%; height: 100%; object-fit: cover;">
+                                <source src="https://images-assets.nasa.gov/video/NHQ_2020_0414_Go Forward to the Moon/NHQ_2020_0414_Go Forward to the Moon~orig.mp4" type="video/mp4">
+                            </video>
+                            <div class="cupola-hud">
+                                <div class="mission-patch-display" id="mission-patch-display">
+                                    <img src="https://www.nasa.gov/wp-content/uploads/2023/03/iss070-s-001.png" alt="Mission Patch" id="selected-patch-img">
+                                </div>
+                                <div class="camera-reticle"></div>
+                                <div id="mission-objective-display" class="mission-objective">
+                                    <p>No active mission. Waiting for target...</p>
+                                </div>
+                                <button id="capture-photo-btn" class="capture-btn" disabled>
+                                    📷 Capture Image
+                                </button>
+                            </div>
                         </div>
                         <div class="cupola-frame"></div>
                     </div>
@@ -239,6 +279,21 @@
                             <a href="#" id="poi-learn-more" class="learn-more-btn" target="_blank">Learn More</a>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Photo Capture Modal -->
+            <div id="photo-capture-modal" class="photo-modal">
+                <div class="modal-content">
+                    <button class="modal-close" id="modal-close-btn">×</button>
+                    <h3 id="modal-title">Mission Success!</h3>
+                    <div id="modal-image-container" class="modal-image-container">
+                        <img id="modal-astronaut-photo" src="" alt="Astronaut Photography">
+                    </div>
+                    <div id="modal-description" class="modal-description">
+                        <p>Success! This image helps scientists track important Earth events.</p>
+                    </div>
+                    <a href="#" id="modal-learn-more" class="modal-learn-more-btn" target="_blank">View in Gateway to Astronaut Photography</a>
                 </div>
             </div>
         </section>
@@ -710,5 +765,6 @@
     <script src="config.js"></script>
     <script src="api.js"></script>
     <script src="script.js"></script>
+    <script src="cupola.js"></script>
 </body>
 </html>
