@@ -2785,3 +2785,179 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focu
         font-size: 1.5rem;
     }
 }
+
+/* User Rewards System */
+.user-rewards {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--border);
+    border-radius: 5px;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    color: var(--text);
+}
+
+.rewards-score {
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.rewards-badges {
+    display: flex;
+    gap: 0.3rem;
+}
+
+.badge {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Badge Notification */
+.badge-notification {
+    position: fixed;
+    top: 100px;
+    right: -400px;
+    background: var(--accent);
+    border: 4px solid var(--border);
+    box-shadow: 8px 8px 0 var(--border);
+    padding: 1.5rem;
+    z-index: 10000;
+    transition: right 0.5s ease;
+}
+
+.badge-notification.show {
+    right: 20px;
+}
+
+.badge-notification-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.badge-icon {
+    font-size: 3rem;
+}
+
+.badge-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text);
+}
+
+/* Docking Challenge Canvas */
+#docking-challenge-canvas {
+    border: 4px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    background: #000814;
+    max-width: 100%;
+    height: auto;
+}
+
+#docking-instructions {
+    font-family: 'VT323', monospace;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    border: 2px solid var(--border);
+}
+
+#docking-status {
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    min-height: 30px;
+}
+
+/* Earth Observer Game */
+#earth-observer-game {
+    width: 100%;
+}
+
+#observer-image {
+    display: block;
+    margin: 0 auto;
+}
+
+#observer-question {
+    color: var(--text);
+    text-align: center;
+}
+
+#observer-options {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.observer-option-btn {
+    font-family: 'VT323', monospace !important;
+    font-size: 1.2rem !important;
+    background: var(--accent) !important;
+    color: var(--text) !important;
+    border: 3px solid var(--border) !important;
+    padding: 0.75rem !important;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 4px 4px 0 var(--border) !important;
+}
+
+.observer-option-btn:hover:not(:disabled) {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border) !important;
+}
+
+.observer-option-btn:active:not(:disabled) {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--border) !important;
+}
+
+.observer-option-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+#observer-feedback {
+    color: var(--text);
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid var(--border);
+    border-radius: 5px;
+}
+
+/* Mobile Responsive for Games */
+@media (max-width: 768px) {
+    .user-rewards {
+        font-size: 1rem;
+        padding: 0.3rem 0.5rem;
+        gap: 0.5rem;
+    }
+    
+    .badge {
+        font-size: 1.2rem;
+    }
+    
+    .badge-notification {
+        right: -300px;
+        padding: 1rem;
+    }
+    
+    .badge-notification.show {
+        right: 10px;
+    }
+    
+    .badge-icon {
+        font-size: 2rem;
+    }
+    
+    .badge-text {
+        font-size: 1.2rem;
+    }
+    
+    #docking-challenge-canvas {
+        width: 100%;
+        height: auto;
+    }
+}
