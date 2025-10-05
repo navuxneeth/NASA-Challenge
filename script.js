@@ -1283,3 +1283,181 @@ window.showPOIPanel = function(poiType) {
 
 console.log('✅ Theme switcher initialized!');
 console.log('✅ POI overlay functionality fixed!');
+
+// ============================================
+// DOCKING CHALLENGE GAME
+// ============================================
+
+const dockingBtn = document.getElementById('start-docking-btn');
+const dockingCanvas = document.getElementById('docking-challenge-canvas');
+const dockingInstructions = document.getElementById('docking-instructions');
+const dockingStatus = document.getElementById('docking-status');
+
+if (dockingBtn && dockingCanvas) {
+    let gameActive = false;
+    let spacecraft = { x: 100, y: 300, vx: 0, vy: 0, angle: 0, vAngle: 0 };
+    let iss = { x: 500, y: 200 };
+    let animationId = null;
+
+    dockingBtn.addEventListener('click', () => {
+        if (!gameActive) {
+            gameActive = true;
+            dockingBtn.textContent = 'Reset';
+            dockingCanvas.style.display = 'block';
+            dockingInstructions.style.display = 'block';
+            spacecraft = { x: 100, y: 300, vx: 0, vy: 0, angle: 0, vAngle: 0 };
+            startDockingGame();
+        } else {
+            gameActive = false;
+            dockingBtn.textContent = 'Play Now';
+            dockingCanvas.style.display = 'none';
+            dockingInstructions.style.display = 'none';
+            dockingStatus.textContent = '';
+            if (animationId) cancelAnimationFrame(animationId);
+        }
+    });
+
+    function startDockingGame() {
+        const ctx = dockingCanvas.getContext('2d');
+        const keys = {};
+
+        document.addEventListener('keydown', (e) => {
+            if (gameActive) keys[e.key] = true;
+        });
+        document.addEventListener('keyup', (e) => {
+            if (gameActive) keys[e.key] = false;
+        });
+
+        function update() {
+            if (!gameActive) return;
+
+            // Handle controls
+            if (keys['ArrowUp']) {
+                const thrust = 0.2;
+                spacecraft.vx += Math.cos(spacecraft.angle) * thrust;
+                spacecraft.vy += Math.sin(spacecraft.angle) * thrust;
+            }
+            if (keys['ArrowLeft']) spacecraft.vAngle -= 0.05;
+            if (keys['ArrowRight']) spacecraft.vAngle += 0.05;
+
+            // Apply friction
+            spacecraft.vx *= 0.99;
+            spacecraft.vy *= 0.99;
+            spacecraft.vAngle *= 0.95;
+
+            // Update position
+            spacecraft.x += spacecraft.vx;
+            spacecraft.y += spacecraft.vy;
+            spacecraft.angle += spacecraft.vAngle;
+
+            // Boundaries
+            spacecraft.x = Math.max(20, Math.min(580, spacecraft.x));
+            spacecraft.y = Math.max(20, Math.min(380, spacecraft.y));
+
+            // Check docking
+            const dx = spacecraft.x - iss.x;
+            const dy = spacecraft.y - iss.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 30 && Math.abs(spacecraft.vx) < 0.5 && Math.abs(spacecraft.vy) < 0.5) {
+                dockingStatus.textContent = '🎉 Successful Docking!';
+                dockingStatus.style.color = '#4ade80';
+                gameActive = false;
+                setTimeout(() => {
+                    dockingBtn.textContent = 'Play Again';
+                }, 1000);
+            } else if (distance < 50) {
+                dockingStatus.textContent = 'Approaching... Slow down!';
+                dockingStatus.style.color = '#fbbf24';
+            } else {
+                dockingStatus.textContent = `Distance: ${Math.floor(distance)}m`;
+                dockingStatus.style.color = 'var(--text)';
+            }
+
+            draw(ctx);
+            if (gameActive) animationId = requestAnimationFrame(update);
+        }
+
+        function draw(ctx) {
+            // Clear canvas
+            ctx.fillStyle = '#000814';
+            ctx.fillRect(0, 0, 600, 400);
+
+            // Draw stars
+            ctx.fillStyle = '#ffffff';
+            for (let i = 0; i < 50; i++) {
+                const x = (i * 123) % 600;
+                const y = (i * 456) % 400;
+                ctx.fillRect(x, y, 2, 2);
+            }
+
+            // Draw ISS
+            ctx.save();
+            ctx.translate(iss.x, iss.y);
+            ctx.fillStyle = '#cccccc';
+            ctx.fillRect(-25, -15, 50, 30);
+            ctx.fillStyle = '#999999';
+            ctx.fillRect(-30, -5, 10, 10);
+            ctx.fillRect(20, -5, 10, 10);
+            ctx.fillStyle = '#ffd700';
+            ctx.beginPath();
+            ctx.arc(0, 0, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // Draw spacecraft
+            ctx.save();
+            ctx.translate(spacecraft.x, spacecraft.y);
+            ctx.rotate(spacecraft.angle);
+            ctx.fillStyle = '#4ade80';
+            ctx.beginPath();
+            ctx.moveTo(15, 0);
+            ctx.lineTo(-10, -10);
+            ctx.lineTo(-10, 10);
+            ctx.closePath();
+            ctx.fill();
+            // Thrust indicator
+            if (keys['ArrowUp']) {
+                ctx.fillStyle = '#ff6b6b';
+                ctx.fillRect(-15, -3, 8, 6);
+            }
+            ctx.restore();
+        }
+
+        update();
+    }
+}
+
+// ============================================
+// MINI BUOYANCY GAME
+// ============================================
+
+const buoyancyBtn = document.getElementById('start-buoyancy-btn');
+const buoyancyGame = document.getElementById('buoyancy-game');
+const miniAstronaut = document.getElementById('mini-astronaut');
+const miniSlider = document.getElementById('mini-buoyancy-slider');
+
+if (buoyancyBtn && buoyancyGame && miniAstronaut && miniSlider) {
+    let buoyancyActive = false;
+
+    buoyancyBtn.addEventListener('click', () => {
+        buoyancyActive = !buoyancyActive;
+        if (buoyancyActive) {
+            buoyancyBtn.textContent = 'Stop Training';
+            buoyancyGame.style.display = 'block';
+        } else {
+            buoyancyBtn.textContent = 'Start Training';
+            buoyancyGame.style.display = 'none';
+        }
+    });
+
+    miniSlider.addEventListener('input', (e) => {
+        if (buoyancyActive) {
+            const value = e.target.value;
+            const topPosition = 80 - (value * 0.6); // Map 0-100 to 80-20
+            miniAstronaut.style.top = `${topPosition}%`;
+        }
+    });
+}
+
+console.log('✅ Docking Challenge and Buoyancy games initialized!');
