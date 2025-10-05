@@ -2,6 +2,8 @@
 
 An interactive educational website created for the NASA Space Apps Challenge, designed to help students and the public experience two of the most unique aspects of the International Space Station: the breathtaking views from the Cupola and weightlessness training in the Neutral Buoyancy Laboratory (NBL).
 
+Access it at https://navuxneeth.github.io/NASA-Challenge/index.html
+
 ## IMPORTANT: Project Structure
 
 This repository contains two versions of the project in separate folders:
