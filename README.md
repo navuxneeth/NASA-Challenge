@@ -2,223 +2,139 @@
 
 An interactive educational website created for the NASA Space Apps Challenge, designed to help students and the public experience two of the most unique aspects of the International Space Station: the breathtaking views from the Cupola and weightlessness training in the Neutral Buoyancy Laboratory (NBL).
 
-## 🌟 Features
+## IMPORTANT: Project Structure
 
-### 1. Home/Hero Section
-- Immersive full-screen entry with animated star field
-- Real-time ISS position widget showing latitude and longitude
-- Clear mission statement and call-to-action
-- Smooth scroll indicator
+This repository contains two versions of the project in separate folders:
 
-### 2. Interactive World Map
-- **Custom-built Canvas Map** - No external dependencies required
-- **Real-time ISS Tracking** - Watch the space station orbit Earth live
-- **Interactive Controls:**
-  - 📍 Center on ISS - Follow the ISS as it moves
-  - 🛰️ Toggle Orbital Path - Show/hide the ISS trajectory
-  - 🗺️ Toggle Grid - Show/hide latitude/longitude lines
-  - ➕➖ Zoom Controls - Zoom in and out
-  - 🖱️ Pan & Drag - Click and drag to explore the map
-- **Hover Tooltips** - Mouse over the ISS for detailed position info
-- **Live Position Updates** - Updates every 5 seconds with real or simulated data
-- **Works Offline** - Includes simulated orbital motion when APIs are unavailable
+### v2-final (RECOMMENDED - USE THIS VERSION)
+**Location:** `/v2-final/`
 
-### 3. The Cupola - "The Window to the World"
-- Interactive Earth viewing experience
-- Points of Interest (POI) highlighting real-world ISS observations
-- Detailed information panels about:
-  - Wildfire monitoring
-  - Hurricane tracking
-  - Deforestation monitoring
-- Simulated orbital sunrise/sunset timer
+This is the latest, fully-functional version with all features working correctly. This version includes:
+- Real-time ISS tracking with working APIs
+- Interactive world map with custom canvas implementation
+- NASA API integration (fully functional)
+- Live Earth events tracking
+- NASA image gallery with search functionality
+- Proper error handling and fallback mechanisms
+- Complete documentation and setup guides
 
-### 4. The NBL - "Training for Zero-G"
-- Interactive buoyancy simulation
-- Draggable astronaut avatar
-- Adjustable buoyancy control slider
-- Task-based training mini-game
-- Real NBL statistics and facts
+**To use this version:**
+1. Navigate to the `v2-final` folder
+2. Open `index.html` in your browser or deploy to a web server
+3. Follow the instructions in `v2-final/README.md` for setup
+4. (Optional) Configure API keys in `v2-final/config.js`
 
-### 5. Earth Benefits
-- Tabbed interface showcasing four key areas:
-  - Healthcare innovations
-  - Disaster relief and monitoring
-  - Environmental science
-  - Technology transfer
-- "Did You Know?" rotating fact carousel
+### v1-legacy (OLDER VERSION - FOR REFERENCE ONLY)
+**Location:** `/v1-legacy/`
 
-### 6. About Section
-- Project information
-- NASA resources and data sources
-- Acknowledgments
-- Contact form
+This is an older version of the project that has some known issues:
+- API integration has errors and may not work correctly
+- Some features may not function as expected
+- Less stable than v2-final
+- Kept for historical reference and comparison
 
-## 🚀 Technologies Used
+**Note:** If you want to view, modify, or use the project, please use the `v2-final` folder. The v1-legacy version is provided only for reference purposes.
 
-- **HTML5** - Semantic structure with accessibility features
-- **CSS3** - Modern styling with:
-  - CSS Grid and Flexbox for responsive layouts
-  - CSS animations and transitions
-  - Custom properties (CSS variables)
-  - Gradient backgrounds
-- **Vanilla JavaScript** - Interactive functionality including:
-  - Smooth scroll navigation
-  - Drag-and-drop simulation
-  - Tab switching
-  - Dynamic content updates
-  - Touch support for mobile devices
+## Quick Start
 
-## 📱 Responsive Design
+To get started with the working version:
 
-The website is fully responsive and works seamlessly across:
-- Desktop computers (1920px+)
-- Laptops (1024px+)
-- Tablets (768px+)
-- Mobile phones (320px+)
+```bash
+# Navigate to the recommended version
+cd v2-final
 
-## ♿ Accessibility Features
+# Open index.html in your browser
+# Or use a local server for full API functionality:
+python3 -m http.server 8080
+# Then open http://localhost:8080
+```
 
-- Semantic HTML5 elements
-- ARIA labels for interactive elements
-- Keyboard navigation support
-- High contrast text
-- Focus indicators
-- Touch-friendly interface for mobile users
+## Repository Structure
 
-## 🎯 Educational Goals
-
-This tool aims to:
-1. **Educate** students and the public about ISS research and operations
-2. **Inspire** interest in space exploration and STEM fields
-3. **Demonstrate** how space exploration benefits life on Earth
-4. **Engage** users through interactive, hands-on experiences
-
-## 📚 NASA Resources Used
-
-- [Gateway to Astronaut Photography of Earth](https://eol.jsc.nasa.gov/)
-- [International Space Station](https://www.nasa.gov/mission_pages/station/main/index.html)
-- [Neutral Buoyancy Laboratory](https://www.nasa.gov/content/neutral-buoyancy-laboratory)
-- [NASA Image and Video Library](https://images.nasa.gov/)
-- [NASA Earth Observatory](https://earthobservatory.nasa.gov/)
-
-## 🔧 Technical Implementation
-
-### File Structure
 ```
 NASA-Challenge/
-├── index.html          # Main HTML structure
-├── styles.css          # Complete styling with new API sections
-├── script.js           # Interactive functionality + API integrations
-├── config.js           # API keys configuration (EDIT THIS!)
-├── api.js              # API integration module
-├── challenge.txt       # Original challenge description
-├── README.md           # Project documentation
-└── images/             # (Optional) Your custom images folder
-    ├── earth.jpg
-    ├── iss.jpg
-    ├── cupola.jpg
-    └── nbl.jpg
+├── README.md           # This file - main documentation
+├── v2-final/          # RECOMMENDED VERSION - Use this!
+│   ├── index.html     # Main application file
+│   ├── styles.css     # Styling
+│   ├── script.js      # Application logic
+│   ├── api.js         # API integration
+│   ├── config.js      # API configuration (edit this for your keys)
+│   ├── README.md      # Detailed documentation for v2
+│   └── ...            # Additional support files
+└── v1-legacy/         # Older version (has API errors)
+    ├── index.html     # Legacy application
+    └── ...            # Legacy files
 ```
 
-### Key Features
-- **Single Page Application (SPA)** design with smooth section transitions
-- **Real API Integration** - Live data from NASA and other free sources
-- **No external dependencies** - pure HTML, CSS, and JavaScript
-- **Optimized performance** with efficient animations
-- **Cross-browser compatible** (Chrome, Firefox, Safari, Edge)
+## Features Overview
 
-### APIs Used (All FREE!)
-1. **NASA API** - Images, APOD, Earth imagery
-   - Sign up: [api.nasa.gov](https://api.nasa.gov/)
-   - Free tier: 1,000 requests/hour
-   
-2. **Open Notify (ISS Location)** - Real-time ISS tracking
-   - No API key needed!
-   - Endpoint: [open-notify.org](http://api.open-notify.org/)
-   
-3. **NASA EONET** - Earth Observatory Natural Event Tracker
-   - No API key needed!
-   - Tracks wildfires, storms, volcanoes, etc.
-   
-4. **NASA Images API** - Search entire NASA media library
-   - No API key needed!
-   - 100,000+ images available
-   
-5. **Open-Meteo** - Weather data
-   - No API key needed!
-   - Completely free weather API
+The v2-final version includes:
 
-## 🎨 Design Principles
+**Interactive Elements:**
+- Real-time ISS position tracking
+- Custom-built canvas world map
+- Drag-and-drop interactions
+- Interactive controls and animations
 
-- **NASA Brand Colors**: Official NASA blue (#0b3d91) and red (#fc3d21)
-- **Space Theme**: Dark backgrounds with star fields and cosmic gradients
-- **Clean Typography**: Clear, readable fonts with proper hierarchy
-- **Visual Hierarchy**: Important information emphasized through size and color
-- **Smooth Animations**: Subtle transitions that enhance UX without distraction
+**NASA Integration:**
+- Live ISS location data
+- NASA image gallery with search
+- Earth events tracking (wildfires, storms, etc.)
+- Real NASA imagery
 
-## 📊 ISS Facts Highlighted
+**Educational Content:**
+- ISS Cupola viewing experience
+- Neutral Buoyancy Laboratory simulation
+- Earth benefits from space research
+- Interactive fact carousel
 
-- The ISS orbits Earth at 17,900 mph
-- Astronauts experience 16 sunrises and sunsets per day
-- The ISS passes over 90% of Earth's population
-- 7 hours of NBL training for every 1 hour of spacewalk
-- The NBL contains 6.2 million gallons of water
+**Technical Features:**
+- Pure HTML, CSS, and JavaScript (no frameworks)
+- Fully responsive design
+- Works offline with fallback data
+- Free APIs (no cost)
+- Easy API key configuration
 
-## 🌍 Real-World Applications
+## Documentation
 
-The website demonstrates how ISS research benefits Earth in:
-- Advanced medical treatments and drug development
-- Natural disaster monitoring and response
-- Climate change tracking and environmental protection
-- Technology innovations that improve daily life
+For detailed information, please refer to:
+- **v2-final/README.md** - Complete feature documentation for the recommended version
+- **v2-final/SETUP_GUIDE.md** - Step-by-step setup instructions
+- **v2-final/API_NOTES.md** - API integration details
+- **v2-final/USAGE.md** - User guide and tips
 
-## ✅ Recently Added Features
+## Technologies Used
 
-- ✅ **Interactive World Map** - Custom-built canvas map with real-time ISS tracking
-- ✅ **Zoom & Pan Controls** - Explore the map with interactive controls
-- ✅ **Orbital Path Visualization** - See the ISS trajectory across Earth
-- ✅ **Hover Tooltips** - Get detailed ISS info on mouse hover
-- ✅ **Simulated Orbit** - Fallback orbital simulation when APIs are blocked
-- ✅ Real-time ISS position tracking using NASA APIs
-- ✅ Actual NASA imagery integration with searchable gallery
-- ✅ Live Earth events (wildfires, storms, etc.)
-- ✅ Easy API key configuration system
+- HTML5 - Semantic structure with accessibility features
+- CSS3 - Modern styling with Grid, Flexbox, animations
+- Vanilla JavaScript - No external dependencies
+- NASA APIs - Real space data integration
+- Canvas API - Custom map visualization
 
-## 🚀 Future Enhancements
+## About the Challenge
 
-Potential additions could include:
-- Enhanced 3D globe visualization with WebGL
-- Additional map layers (population density, climate zones, etc.)
-- ISS pass predictions for specific locations
-- Virtual reality (VR) support for immersive experiences
-- Multi-language support for global accessibility
-- Educational quiz modules
-- Social sharing features
-- More interactive data visualizations
-
-## 👨‍🚀 About the Challenge
-
-This project was created for the **NASA Space Apps Challenge** with the goal of creating an interactive tool that:
+This project was created for the NASA Space Apps Challenge with the goal of creating an interactive tool that:
 - Helps people understand the Cupola's unique view of Earth
 - Simulates the NBL training experience
 - Demonstrates how these experiences benefit humanity
 
-## 📝 License
+## License
 
 This project is created for educational purposes as part of the NASA Space Apps Challenge. All NASA imagery and data are used in accordance with NASA's media usage guidelines.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- **NASA** for providing incredible imagery, data, and inspiration
-- **ISS Astronauts** for their photography and research
-- **Space Apps Challenge** organizers for the opportunity
+- NASA for providing incredible imagery, data, and inspiration
+- ISS Astronauts for their photography and research
+- Space Apps Challenge organizers for the opportunity
 - The entire space exploration community
 
 ---
 
 **Created for the NASA Space Apps Challenge 2025**
 
-*"From orbit to our lives - exploring how space benefits Earth"*
+"From orbit to our lives - exploring how space benefits Earth"
 
 ## Authors
 
