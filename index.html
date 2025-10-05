@@ -187,11 +187,7 @@
                     <div class="orbit-schedule" id="orbit-schedule">
                         <!-- Dynamic orbit schedule items will be added here -->
                     </div>
-                    <div class="timeline-controls">
-                        <button class="timeline-btn" id="timeline-prev">← Previous Orbit</button>
-                        <button class="timeline-btn primary" id="timeline-current">Current Orbit</button>
-                        <button class="timeline-btn" id="timeline-next">Next Orbit →</button>
-                    </div>
+
                 </div>
             </div>
         </section>
@@ -348,12 +344,48 @@
                 <p class="section-subtitle">Test Your Astronaut Skills</p>
             </div>
             <div class="games-content">
-                <div class="games-grid">
-                    <div class="game-card">
-                        <h3>🎯 Docking Challenge</h3>
-                        <p>Guide your spacecraft to dock with the ISS. Precision and timing are critical!</p>
-                        <button class="game-btn" onclick="alert('Docking simulator coming soon!')">Play Now</button>
+                <!-- Split View for Interactive Games -->
+                <div class="games-split-view">
+                    <div class="game-panel">
+                        <div class="game-card">
+                            <h3>🎯 Docking Challenge</h3>
+                            <p>Guide your spacecraft to dock with the ISS. Precision and timing are critical!</p>
+                            <button class="game-btn" id="start-docking-btn">Play Now</button>
+                            <div id="docking-instructions" style="display:none; margin-top: 1rem; font-size: 1rem;">
+                                Use Arrow Keys: ⬆️ Thrust | ⬅️⮕ Rotate
+                            </div>
+                        </div>
+                        <canvas id="docking-challenge-canvas" width="600" height="400" style="display:none;"></canvas>
+                        <div id="docking-status" style="min-height: 30px;"></div>
                     </div>
+                    
+                    <div class="game-panel">
+                        <div class="game-card">
+                            <h3>🌊 Buoyancy Training</h3>
+                            <p>Adjust your buoyancy and perform critical tasks under simulated microgravity.</p>
+                            <button class="game-btn" id="start-buoyancy-btn">Start Training</button>
+                        </div>
+                        <div id="buoyancy-game" style="display:none; margin-top: 1rem;">
+                            <div class="mini-pool-environment">
+                                <div class="mini-astronaut" id="mini-astronaut">
+                                    <div class="astronaut-body"></div>
+                                </div>
+                                <div class="mini-connection-point" id="mini-connection-point"></div>
+                            </div>
+                            <div class="mini-buoyancy-control">
+                                <label for="mini-buoyancy-slider">Buoyancy Control</label>
+                                <div class="slider-container">
+                                    <span class="slider-label">Float ↑</span>
+                                    <input type="range" id="mini-buoyancy-slider" min="0" max="100" value="50" orient="vertical">
+                                    <span class="slider-label">Sink ↓</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other Games Grid -->
+                <div class="games-grid">
                     <div class="game-card">
                         <h3>🔩 Repair Mission</h3>
                         <p>Fix equipment on the ISS exterior during a simulated spacewalk.</p>
@@ -702,7 +734,8 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Orbital Perspectives. Created for NASA Space Apps Challenge.</p>
+        <p>&copy; 2025 Orbital Perspectives. Created for NASA Space Apps Challenge.</p>
+        <p>Made by Abhinav & Navaneeth for NASA Space Challenge</p>
         <p>All imagery courtesy of NASA. For educational purposes.</p>
     </footer>
 

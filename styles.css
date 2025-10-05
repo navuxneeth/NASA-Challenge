@@ -188,7 +188,7 @@ nav {
 .section-subtitle {
     font-size: 1.5rem;
     color: var(--text);
-    opacity: 0.9;
+    opacity: 1;
 }
 
 /* Hero Section */
@@ -286,7 +286,7 @@ nav {
     font-size: 1.5rem;
     margin-bottom: 2rem;
     color: var(--text);
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .cta-button {
@@ -772,7 +772,7 @@ nav {
 .iss-speed {
     text-align: center;
     font-size: 0.95rem;
-    opacity: 0.9;
+    opacity: 1;
 }
 
 /* Cupola Section */
@@ -1319,19 +1319,19 @@ nav {
 }
 
 .healthcare-img {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: none;
 }
 
 .disaster-img {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    display: none;
 }
 
 .environment-img {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    display: none;
 }
 
 .technology-img {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    display: none;
 }
 
 .benefit-text h3 {
@@ -1525,7 +1525,7 @@ footer {
 
 footer p {
     margin: 0.5rem 0;
-    opacity: 0.8;
+    opacity: 0.95;
 }
 
 /* Responsive Design */
@@ -2131,6 +2131,109 @@ button:active, .btn:active, .task-btn:active, .game-btn:active, .tab-btn:active,
     color: var(--text);
     margin-bottom: 1.5rem;
     line-height: 1.6;
+}
+
+/* Split View for Games */
+.games-split-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.game-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Docking Challenge Styles */
+#docking-challenge-canvas {
+    border: 4px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    background: #000814;
+    max-width: 100%;
+    height: auto;
+}
+
+#docking-instructions {
+    font-family: 'VT323', monospace;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 0.5rem;
+    border: 2px solid var(--border);
+}
+
+#docking-status {
+    font-family: 'VT323', monospace;
+    font-size: 1.3rem;
+    min-height: 30px;
+    text-align: center;
+    color: var(--text);
+}
+
+/* Mini Buoyancy Game Styles */
+.mini-pool-environment {
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(180deg, #b3d9ff 0%, #0066cc 100%);
+    position: relative;
+    border: 4px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+    overflow: hidden;
+}
+
+.mini-astronaut {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 60px;
+    transition: all 0.3s ease;
+}
+
+.mini-astronaut .astronaut-body {
+    width: 100%;
+    height: 100%;
+    background: #cccccc;
+    border-radius: 5px;
+    border: 2px solid #999999;
+}
+
+.mini-connection-point {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background: #ffd700;
+    border-radius: 50%;
+    border: 3px solid #ff8800;
+}
+
+.mini-buoyancy-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--accent);
+    border: 4px solid var(--border);
+    box-shadow: 4px 4px 0 var(--border);
+}
+
+.mini-buoyancy-control label {
+    font-size: 1.3rem;
+    color: var(--text);
+}
+
+/* Responsive for split view */
+@media (max-width: 768px) {
+    .games-split-view {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Habitats Section */
