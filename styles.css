@@ -1622,6 +1622,265 @@ nav {
     color: #c92a2a;
 }
 
+.task-feedback.fact-display {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Buoyancy Setup Modal */
+.buoyancy-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.buoyancy-modal.active {
+    display: flex;
+}
+
+.buoyancy-modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.buoyancy-modal-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.setup-tip {
+    color: #333;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    background: rgba(107, 207, 127, 0.1);
+    padding: 0.8rem;
+    border-radius: 8px;
+}
+
+.balance-meter-container {
+    margin: 2rem 0;
+}
+
+.balance-status {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.balance-status.too-light {
+    color: #4dabf7;
+}
+
+.balance-status.too-heavy {
+    color: #ff6b6b;
+}
+
+.balance-status.neutral {
+    color: #6bcf7f;
+}
+
+.balance-meter {
+    position: relative;
+    height: 40px;
+    background: linear-gradient(to right, #4dabf7 0%, #6bcf7f 40%, #6bcf7f 60%, #ff6b6b 100%);
+    border-radius: 20px;
+    margin: 1rem 0;
+    border: 3px solid #333;
+}
+
+.neutral-zone-marker {
+    position: absolute;
+    left: 40%;
+    width: 20%;
+    height: 100%;
+    border-left: 2px dashed rgba(0, 0, 0, 0.3);
+    border-right: 2px dashed rgba(0, 0, 0, 0.3);
+    pointer-events: none;
+}
+
+.balance-indicator {
+    position: absolute;
+    top: -5px;
+    left: 0%;
+    width: 20px;
+    height: 50px;
+    background: #333;
+    border-radius: 5px;
+    transform: translateX(-50%);
+    transition: left 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.weight-display {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+    margin-top: 1rem;
+}
+
+.weight-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0;
+}
+
+.weight-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'VT323', monospace;
+}
+
+.weight-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.begin-task-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    background: #6bcf7f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'VT323', monospace;
+    font-weight: bold;
+}
+
+.begin-task-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(107, 207, 127, 0.5);
+}
+
+.begin-task-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+/* Task-specific elements */
+.repair-panel {
+    position: absolute;
+    top: 30%;
+    right: 20%;
+    width: 60px;
+    height: 60px;
+    background: #ffd93d;
+    border: 3px solid #333;
+    border-radius: 8px;
+    display: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.repair-panel::before {
+    content: '🔧';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+}
+
+.repair-panel.interactive {
+    animation: pulse 1s ease-in-out infinite;
+    box-shadow: 0 0 20px #ffd93d;
+}
+
+.handrail {
+    position: absolute;
+    width: 50px;
+    height: 10px;
+    background: #999;
+    border: 2px solid #666;
+    border-radius: 5px;
+    display: none;
+    transition: all 0.3s;
+}
+
+.handrail.highlighted {
+    background: #ffd93d;
+    box-shadow: 0 0 20px #ffd93d;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+.handrail.completed {
+    background: #6bcf7f;
+}
+
+.rock-sample {
+    position: absolute;
+    bottom: 10%;
+    left: 30%;
+    width: 50px;
+    height: 50px;
+    font-size: 3rem;
+    display: none;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.rock-sample.interactive {
+    animation: bounce 0.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 217, 61, 0.8));
+}
+
+.pool-environment.lunar-mode {
+    background: linear-gradient(180deg, #2c3e50 0%, #95a5a6 100%);
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Ensure good contrast for NBL section */
+.nbl-description p {
+    color: #333;
+}
+
+.nbl-facts .fact-label {
+    color: #666;
+}
+
 /* Benefits Section */
 .benefits-section {
     background: linear-gradient(180deg, #e0f2ff 0%, #ffffff 100%);
