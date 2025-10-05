@@ -373,6 +373,17 @@ const missionManager = {
             }, 2000);
         }
         
+        // Award points and badge for Cupola mission
+        if (window.gameRewards) {
+            if (!window.gameRewards.userProfile.completedTasks.cupola) {
+                window.gameRewards.addPoints(75);
+                window.gameRewards.addBadge('Citizen Scientist', '📷');
+                window.gameRewards.userProfile.completedTasks.cupola = true;
+            } else {
+                window.gameRewards.addPoints(25);
+            }
+        }
+        
         // Show modal with astronaut photography
         this.showPhotoModal();
         

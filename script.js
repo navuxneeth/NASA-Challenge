@@ -565,6 +565,17 @@ function completeTask() {
     taskFeedback.textContent = '✓ Task Complete! You successfully attached the power cable!';
     taskFeedback.className = 'task-feedback success';
     
+    // Award points and badge for NBL task
+    if (window.gameRewards) {
+        if (!window.gameRewards.userProfile.completedTasks.nbl) {
+            window.gameRewards.addPoints(100);
+            window.gameRewards.addBadge('EVA Specialist', '🔩');
+            window.gameRewards.userProfile.completedTasks.nbl = true;
+        } else {
+            window.gameRewards.addPoints(50);
+        }
+    }
+    
     setTimeout(() => {
         startTaskBtn.disabled = false;
         startTaskBtn.textContent = 'Start Another Task';

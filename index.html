@@ -40,6 +40,10 @@
         <div class="theme-switcher">
             <button id="theme-btn" aria-label="Change theme" title="Change theme">🎨</button>
         </div>
+        <div id="user-rewards" class="user-rewards">
+            <span class="rewards-score">Score: <span id="user-score">0</span></span>
+            <span class="rewards-badges" id="user-badges"></span>
+        </div>
         <button id="burger-menu" aria-label="Toggle navigation menu">
             <span></span>
             <span></span>
@@ -407,7 +411,12 @@
                     <div class="game-card">
                         <h3>🎯 Docking Challenge</h3>
                         <p>Guide your spacecraft to dock with the ISS. Precision and timing are critical!</p>
-                        <button class="game-btn" onclick="alert('Docking simulator coming soon!')">Play Now</button>
+                        <button class="game-btn" id="start-docking-btn">Play Now</button>
+                        <canvas id="docking-challenge-canvas" width="400" height="400" style="display:none; margin-top: 1rem;"></canvas>
+                        <div id="docking-instructions" style="display:none; margin-top: 1rem; font-size: 1rem;">
+                            Use Arrow Keys: ⬆️ Thrust | ⬅️⮕ Rotate
+                        </div>
+                        <div id="docking-status" style="margin-top: 0.5rem; font-weight: bold;"></div>
                     </div>
                     <div class="game-card">
                         <h3>🔩 Repair Mission</h3>
@@ -417,7 +426,13 @@
                     <div class="game-card">
                         <h3>🌍 Earth Observer</h3>
                         <p>Identify geographical features and natural phenomena from orbit.</p>
-                        <button class="game-btn" onclick="alert('Earth observer game coming soon!')">Play Now</button>
+                        <button class="game-btn" id="start-observer-btn">Play Now</button>
+                        <div id="earth-observer-game" style="display:none; margin-top: 1rem;">
+                            <img id="observer-image" style="width: 100%; max-width: 400px; height: auto; border: 3px solid var(--border); margin-bottom: 1rem;" />
+                            <div id="observer-question" style="font-size: 1.1rem; margin-bottom: 1rem; font-weight: bold;"></div>
+                            <div id="observer-options" style="display: grid; gap: 0.5rem;"></div>
+                            <div id="observer-feedback" style="margin-top: 1rem; font-weight: bold; min-height: 60px;"></div>
+                        </div>
                     </div>
                     <div class="game-card">
                         <h3>🚀 Launch Sequence</h3>
@@ -766,5 +781,6 @@
     <script src="api.js"></script>
     <script src="script.js"></script>
     <script src="cupola.js"></script>
+    <script src="games.js"></script>
 </body>
 </html>
