@@ -9,6 +9,7 @@ Access it at https://navuxneeth.github.io/NASA-Challenge/index.html
 This repository contains two versions of the project in separate folders:
 
 ### v2-final (RECOMMENDED - USE THIS VERSION)
+**Access Original Repo**: https://github.com/navuxneeth/Orbital-Perspectives
 **Location:** `/v2-final/`
 
 This is the latest, fully-functional version with all features working correctly. This version includes:
