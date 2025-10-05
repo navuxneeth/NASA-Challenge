@@ -12,7 +12,8 @@ const CONFIG = {
     // NASA API Key (FREE) - Get yours at: https://api.nasa.gov/
     // This key works for: APOD, Mars Rover Photos, Earth Imagery, and more
     // Default rate limit: 1000 requests per hour
-    NASA_API_KEY: 'PxDRbspwlZcHkIy57WyhHvrF9q4xONEXOeUzLXcK', // Replace with your key from api.nasa.gov
+    // IMPORTANT: Copy this file to config.js and add your actual API key there
+    NASA_API_KEY: 'DEMO_KEY', // Replace with your key from api.nasa.gov
 
     // Open-Meteo API (FREE, NO API KEY REQUIRED)
     // Weather and climate data - completely free, no registration needed
