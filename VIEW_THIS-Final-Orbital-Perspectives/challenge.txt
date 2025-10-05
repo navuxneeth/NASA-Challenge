@@ -1,0 +1,32 @@
+Summary
+Crews onboard the International Space Station have many unique opportunities! They witness breathtaking Earth views from the station’s cupola—known as “the window to the world.” They also experience weightlessness and go outside the station on spacewalks, for which they must train extensively in the Neutral Buoyancy Laboratory (NBL) at the Sonny Carter Training Facility in Houston, Texas. Your challenge is to create a visual tool that not only helps students and the public understand two of the most prominent sensory experiences on the station (sight and weightlessness) through the lens of the cupola and the NBL, but also informs them how these unique experiences benefit humans on Earth.
+
+Background
+Our understanding of Earth and space grows with observation, and the International Space Station affords a unique perspective of our planet, since its orbital path passes over 90% of Earth’s population. For example, humans monitoring Earth from the space station have supported natural disaster relief (such as wildfires) by taking photos that are then georeferenced by hazard teams on the ground. The view from space can help people on the ground understand the world around them, since it can provide information relevant to various topics including geosciences, healthcare, natural disasters, and more.
+
+Orbiting Earth at a speed of 17,900 mph, crews onboard the station experience 16 orbital sunrises and sunsets each day. The windows in the orbiting laboratory (including the cupola—a seven-windowed dome module on the station where the crew can observe exterior events) are integral for astronaut photography and manual collection of climate data and data showing how Earth is changing over time. In addition, these windows enable the crew to observe spacewalks and robotics activities.
+
+There have been over 270 spacewalks at the International Space Station since December 1998. Astronauts conduct spacewalks to perform maintenance on the station, install new equipment, or deploy science experiments. For every hour that astronauts spend spacewalking, they must train for seven hours in the Neutral Buoyancy Laboratory (NBL) at the Sonny Carter Training Facility in Houston, Texas. The NBL holds 6.2 million gallons of water; is 220 feet long, 102 feet wide, and 40 feet deep; and contains full-scale replicas of various space station modules. The use of neutral buoyancy is a useful method to simulate microgravity environments for astronauts in training.
+
+Objectives
+Your challenge is to create a visual tool that not only helps students and the public understand two of the most prominent sensory experiences on the station (sight and weightlessness) through the lens of the cupola and the Neutral Buoyancy Laboratory (NBL), but also informs them how these unique experiences benefit humans on Earth. Let the photos that astronauts have taken from the cupola and the neutral buoyancy training astronauts undergo inspire you!
+
+You can create an application, game, website, or some other visual tool with an interactive user interface. Be creative! How will your tool give the user the opportunity to experience both the cupola and what it is like to train underwater at the NBL?
+
+Think about how and where your tool could be used to educate users about Earth and space, expanding their understanding of the world and how space exploration benefits humanity. For example, you could incorporate a touch screen and/or keep the games short so more users in an event setting have the opportunity to interact with the tool.
+
+Don’t forget to take advantage of NASA imagery assets and data from scientific observations taken onboard the station.
+
+Potential Considerations
+You may, but are not required to consider the following:
+
+Your target audience can include students of all levels and the general population.
+Your tool could provide an educational, engaging, highly visual, accessible, and fun experience for the user.
+To provide the user with the cupola experience, your tool could potentially include an option for the user to build a character that is fixed in the cupola. For example, your tool could:
+
+Allow the user to customize the appearance of the character via a small selection of customization options.
+Include an option for the user to navigate to various geographical locations on Earth. As the user selects a specific location, the scene behind the cupola could reflect preexisting imagery or videos taken from onboard the station and a screen could pop up sharing unique data about what the user is observing and the area.
+To enable the user to understand what it is like to train in the NBL, your tool could provide an option for the user to play one or more games as an astronaut in training at the NBL. For example, your tool could:
+
+Allow users to identify their weight and then make themselves neutrally buoyant in the pool by adding or subtracting weights and floaties before performing a task under water. Simulated tasks could involve entering and exiting a hatch, conducting a repair, or moving along the handles affixed to the station to reach a certain destination.
+Include an element of exploration by incorporating a game that includes weight adjustment and lunar exploration tasks. In this case, you could consider making the goal of the game for the user to weight themselves enough so they descend all the way down to a simulated lunar scape on the floor of the pool. You could consider giving the user the opportunity to perform a task such as collecting lunar rock samples or working with tools that would be used on the Moon.
