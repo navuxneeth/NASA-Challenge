@@ -1461,3 +1461,398 @@ if (buoyancyBtn && buoyancyGame && miniAstronaut && miniSlider) {
 }
 
 console.log('✅ Docking Challenge and Buoyancy games initialized!');
+
+// ============================================
+// ENHANCED DOCKING CHALLENGE GAME
+// ============================================
+
+// User Profile and Reward System
+let userProfile = {
+    score: 0,
+    badges: [],
+    completedTasks: {
+        nbl: false,
+        cupola: false,
+        docking: false,
+        earthObserver: false
+    }
+};
+
+// Enhanced Docking Game
+let enhancedDockingGame = {
+    canvas: null,
+    ctx: null,
+    isRunning: false,
+    spacecraft: {
+        x: 100,
+        y: 350,
+        angle: -Math.PI / 2,
+        velocityX: 0,
+        velocityY: 0,
+        angularVelocity: 0
+    },
+    iss: {
+        x: 500,
+        y: 100,
+        angle: 0,
+        dockingPortRadius: 15
+    },
+    keys: {},
+    lastTime: 0
+};
+
+// Badge notification system
+function showBadgeNotification(badgeName, icon) {
+    const notification = document.createElement('div');
+    notification.className = 'badge-notification';
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #1f2937;
+        color: #e5e7eb;
+        padding: 1rem;
+        border-radius: 8px;
+        border: 2px solid #10b981;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        z-index: 10000;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        font-family: 'VT323', monospace;
+        font-size: 1.2rem;
+    `;
+    notification.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.5rem;">${icon}</span>
+            <span>Badge Earned: ${badgeName}!</span>
+        </div>
+    `;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+function addBadge(badgeName, icon) {
+    if (!userProfile.badges.find(b => b.name === badgeName)) {
+        userProfile.badges.push({ name: badgeName, icon: icon });
+        showBadgeNotification(badgeName, icon);
+    }
+}
+
+function addPoints(points) {
+    userProfile.score += points;
+    console.log(`Points added: +${points}. Total score: ${userProfile.score}`);
+}
+
+function initEnhancedDockingGame() {
+    enhancedDockingGame.canvas = document.getElementById('docking-challenge-canvas');
+    if (!enhancedDockingGame.canvas) return;
+    
+    enhancedDockingGame.ctx = enhancedDockingGame.canvas.getContext('2d');
+    
+    // Reset spacecraft position
+    enhancedDockingGame.spacecraft = {
+        x: 100,
+        y: 350,
+        angle: -Math.PI / 2,
+        velocityX: 0,
+        velocityY: 0,
+        angularVelocity: 0
+    };
+    
+    // Start enhanced game loop
+    enhancedDockingGame.isRunning = true;
+    enhancedDockingGame.lastTime = performance.now();
+    requestAnimationFrame(updateEnhancedDockingGame);
+    
+    // Setup keyboard controls
+    document.addEventListener('keydown', handleEnhancedDockingKeyDown);
+    document.addEventListener('keyup', handleEnhancedDockingKeyUp);
+}
+
+function handleEnhancedDockingKeyDown(e) {
+    if (!enhancedDockingGame.isRunning) return;
+    enhancedDockingGame.keys[e.key] = true;
+}
+
+function handleEnhancedDockingKeyUp(e) {
+    if (!enhancedDockingGame.isRunning) return;
+    enhancedDockingGame.keys[e.key] = false;
+}
+
+function updateEnhancedDockingGame(currentTime) {
+    if (!enhancedDockingGame.isRunning) return;
+    
+    const deltaTime = (currentTime - enhancedDockingGame.lastTime) / 1000;
+    enhancedDockingGame.lastTime = currentTime;
+    
+    const ship = enhancedDockingGame.spacecraft;
+    
+    // Apply controls
+    const thrustPower = 80;
+    const rotationSpeed = 3;
+    
+    if (enhancedDockingGame.keys['ArrowUp']) {
+        ship.velocityX += Math.cos(ship.angle) * thrustPower * deltaTime;
+        ship.velocityY += Math.sin(ship.angle) * thrustPower * deltaTime;
+    }
+    
+    if (enhancedDockingGame.keys['ArrowLeft']) {
+        ship.angularVelocity = -rotationSpeed;
+    } else if (enhancedDockingGame.keys['ArrowRight']) {
+        ship.angularVelocity = rotationSpeed;
+    } else {
+        ship.angularVelocity = 0;
+    }
+    
+    // Update position and rotation
+    ship.angle += ship.angularVelocity * deltaTime;
+    ship.x += ship.velocityX * deltaTime;
+    ship.y += ship.velocityY * deltaTime;
+    
+    // Apply drag
+    ship.velocityX *= 0.995;
+    ship.velocityY *= 0.995;
+    
+    // Keep in bounds
+    ship.x = Math.max(20, Math.min(580, ship.x));
+    ship.y = Math.max(20, Math.min(380, ship.y));
+    
+    // Check enhanced docking
+    checkEnhancedDocking();
+    
+    // Render
+    renderEnhancedDockingGame();
+    
+    requestAnimationFrame(updateEnhancedDockingGame);
+}
+
+function renderEnhancedDockingGame() {
+    const ctx = enhancedDockingGame.ctx;
+    const ship = enhancedDockingGame.spacecraft;
+    const iss = enhancedDockingGame.iss;
+    
+    // Clear canvas with space background
+    ctx.fillStyle = '#000011';
+    ctx.fillRect(0, 0, 600, 400);
+    
+    // Draw enhanced starfield
+    ctx.fillStyle = 'white';
+    for (let i = 0; i < 80; i++) {
+        const x = (i * 73) % 600;
+        const y = (i * 97) % 400;
+        const size = (i % 3) + 1;
+        ctx.fillRect(x, y, size, size);
+    }
+    
+    // Draw enhanced ISS
+    ctx.save();
+    ctx.translate(iss.x, iss.y);
+    ctx.rotate(iss.angle);
+    
+    // ISS main body
+    ctx.fillStyle = '#cccccc';
+    ctx.fillRect(-50, -25, 100, 50);
+    
+    // Solar panels
+    ctx.fillStyle = '#2563eb';
+    ctx.fillRect(-90, -20, 35, 40);
+    ctx.fillRect(55, -20, 35, 40);
+    
+    // Module details
+    ctx.fillStyle = '#9ca3af';
+    ctx.fillRect(-40, -15, 80, 30);
+    
+    // Enhanced docking port
+    ctx.fillStyle = '#fbbf24';
+    ctx.beginPath();
+    ctx.arc(0, 30, iss.dockingPortRadius, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Docking port ring
+    ctx.strokeStyle = '#f59e0b';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(0, 30, iss.dockingPortRadius + 5, 0, Math.PI * 2);
+    ctx.stroke();
+    
+    ctx.restore();
+    
+    // Draw enhanced spacecraft
+    ctx.save();
+    ctx.translate(ship.x, ship.y);
+    ctx.rotate(ship.angle);
+    
+    // Spacecraft body
+    ctx.fillStyle = '#e5e7eb';
+    ctx.beginPath();
+    ctx.moveTo(0, -20);
+    ctx.lineTo(-12, 15);
+    ctx.lineTo(12, 15);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Spacecraft details
+    ctx.fillStyle = '#6b7280';
+    ctx.fillRect(-8, -10, 16, 20);
+    
+    // Enhanced thruster effect
+    if (enhancedDockingGame.keys['ArrowUp']) {
+        const thrusterLength = 15 + Math.random() * 10;
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.moveTo(-6, 15);
+        ctx.lineTo(0, 15 + thrusterLength);
+        ctx.lineTo(6, 15);
+        ctx.closePath();
+        ctx.fill();
+        
+        // Inner flame
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.moveTo(-3, 15);
+        ctx.lineTo(0, 15 + thrusterLength * 0.7);
+        ctx.lineTo(3, 15);
+        ctx.closePath();
+        ctx.fill();
+    }
+    
+    ctx.restore();
+    
+    // Enhanced UI
+    const speed = Math.sqrt(ship.velocityX * ship.velocityX + ship.velocityY * ship.velocityY);
+    const distance = Math.sqrt((ship.x - iss.x) ** 2 + (ship.y - (iss.y + 30)) ** 2);
+    
+    ctx.fillStyle = '#e5e7eb';
+    ctx.font = '16px VT323, monospace';
+    ctx.fillText(`Speed: ${speed.toFixed(1)} m/s`, 10, 25);
+    ctx.fillText(`Distance: ${distance.toFixed(1)} m`, 10, 45);
+    
+    // Alignment indicator
+    const targetAngle = -Math.PI / 2;
+    const angleDiff = Math.abs(ship.angle - targetAngle);
+    const alignmentStatus = angleDiff < 0.3 ? '✓ ALIGNED' : '⚠ MISALIGNED';
+    ctx.fillStyle = angleDiff < 0.3 ? '#10b981' : '#f59e0b';
+    ctx.fillText(alignmentStatus, 10, 65);
+}
+
+function checkEnhancedDocking() {
+    const ship = enhancedDockingGame.spacecraft;
+    const iss = enhancedDockingGame.iss;
+    
+    // Calculate docking port position
+    const portX = iss.x;
+    const portY = iss.y + 30;
+    
+    // Distance to docking port
+    const dx = ship.x - portX;
+    const dy = ship.y - portY;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    
+    // Calculate speed
+    const speed = Math.sqrt(ship.velocityX * ship.velocityX + ship.velocityY * ship.velocityY);
+    
+    // Check alignment
+    const targetAngle = -Math.PI / 2;
+    const angleDiff = Math.abs(ship.angle - targetAngle);
+    
+    const statusElement = document.getElementById('docking-status');
+    
+    if (distance < 35) {
+        if (speed < 20 && angleDiff < 0.3) {
+            // Successful docking!
+            enhancedDockingGame.isRunning = false;
+            statusElement.textContent = '🎉 Perfect Docking Achieved!';
+            statusElement.style.color = '#10b981';
+            
+            // Award enhanced rewards
+            if (!userProfile.completedTasks.docking) {
+                addPoints(150);
+                addBadge('Elite Docking Specialist', '🎯');
+                userProfile.completedTasks.docking = true;
+            } else {
+                addPoints(75);
+            }
+            
+            setTimeout(() => {
+                resetEnhancedDockingGame();
+            }, 3000);
+        } else if (speed >= 20) {
+            // Collision
+            enhancedDockingGame.isRunning = false;
+            statusElement.textContent = '💥 Collision! Reduce approach speed.';
+            statusElement.style.color = '#ef4444';
+            
+            setTimeout(() => {
+                resetEnhancedDockingGame();
+            }, 2500);
+        } else if (angleDiff >= 0.3) {
+            statusElement.textContent = '⚠️ Alignment error! Point spacecraft upward.';
+            statusElement.style.color = '#f59e0b';
+        }
+    } else if (distance < 100) {
+        statusElement.textContent = '🎯 Approaching docking port...';
+        statusElement.style.color = '#3b82f6';
+    } else {
+        statusElement.textContent = '';
+    }
+}
+
+function resetEnhancedDockingGame() {
+    const statusElement = document.getElementById('docking-status');
+    statusElement.textContent = '';
+    
+    const canvas = document.getElementById('docking-challenge-canvas');
+    canvas.style.display = 'none';
+    
+    const instructions = document.getElementById('docking-instructions');
+    instructions.style.display = 'none';
+    
+    const startBtn = document.getElementById('start-docking-btn');
+    startBtn.style.display = 'inline-block';
+    startBtn.textContent = 'Launch Enhanced Mission';
+    
+    // Remove event listeners
+    document.removeEventListener('keydown', handleEnhancedDockingKeyDown);
+    document.removeEventListener('keyup', handleEnhancedDockingKeyUp);
+}
+
+// Override the original docking game button with enhanced version
+document.addEventListener('DOMContentLoaded', () => {
+    const originalStartBtn = document.getElementById('start-docking-btn');
+    if (originalStartBtn) {
+        // Remove any existing event listeners
+        const newBtn = originalStartBtn.cloneNode(true);
+        originalStartBtn.parentNode.replaceChild(newBtn, originalStartBtn);
+        
+        newBtn.textContent = 'Launch Enhanced Mission';
+        newBtn.addEventListener('click', () => {
+            newBtn.style.display = 'none';
+            document.getElementById('docking-challenge-canvas').style.display = 'block';
+            document.getElementById('docking-instructions').style.display = 'block';
+            document.getElementById('docking-instructions').innerHTML = `
+                <h4>🚀 Enhanced Docking Challenge</h4>
+                <p><strong>↑ Up Arrow:</strong> Primary thrusters</p>
+                <p><strong>← → Arrows:</strong> Rotation control</p>
+                <p><strong>Mission:</strong> Dock with ISS docking port (golden circle)</p>
+                <p><strong>Requirements:</strong> Speed < 20 m/s, Proper alignment</p>
+                <p><em>Precision and patience are key to success!</em></p>
+            `;
+            initEnhancedDockingGame();
+        });
+    }
+});
+
+// Export enhanced game functions
+window.enhancedGameRewards = {
+    addPoints: addPoints,
+    addBadge: addBadge,
+    userProfile: userProfile
+};

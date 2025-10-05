@@ -777,7 +777,7 @@ nav {
 
 /* Cupola Section */
 .cupola-section {
-    background: linear-gradient(180deg, #e8f4f8 0%, #ffffff 100%);
+    background: linear-gradient(135deg, #001021 0%, #0b3d91 100%);
 }
 
 .cupola-content {
@@ -959,7 +959,7 @@ nav {
 
 /* NBL Section */
 .nbl-section {
-    background: linear-gradient(180deg, #ffffff 0%, #e0f2ff 100%);
+    background: linear-gradient(135deg, #001021 0%, #0b3d91 100%);
 }
 
 .nbl-content {
@@ -1241,7 +1241,7 @@ nav {
 
 /* Benefits Section */
 .benefits-section {
-    background: linear-gradient(180deg, #e0f2ff 0%, #ffffff 100%);
+    background: #001a33;
 }
 
 .benefits-content {
@@ -1416,7 +1416,7 @@ nav {
 
 /* About Section */
 .about-section {
-    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    background: #001a33;
 }
 
 .about-content {
@@ -2456,5 +2456,213 @@ input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focu
     
     .explore-item {
         margin-left: 40px;
+    }
+}
+
+/* ============================================
+   ENHANCED GAMES STYLES
+   ============================================ */
+
+/* Badge Notification Styles */
+.badge-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--accent);
+    color: var(--text);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    box-shadow: 8px 8px 0 var(--border);
+    z-index: 10000;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    max-width: 300px;
+}
+
+.badge-notification.show {
+    transform: translateX(0);
+}
+
+.badge-notification-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.badge-icon {
+    font-size: 1.5rem;
+    display: inline-block;
+    animation: bounceIn 0.5s ease;
+}
+
+.badge-text {
+    font-weight: bold;
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.3); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Enhanced Docking Game Styles */
+#docking-challenge-canvas {
+    border: 4px solid var(--border);
+    box-shadow: 8px 8px 0 var(--accent);
+    background: #000011;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+#docking-status {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--border);
+    background: var(--accent);
+    color: var(--text);
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 4px 4px 0 var(--border);
+}
+
+#docking-instructions {
+    background: var(--accent);
+    border: 2px solid var(--border);
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 4px 4px 0 var(--border);
+}
+
+#docking-instructions h4 {
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+#docking-instructions p {
+    margin: 0.3rem 0;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Enhanced Game Button */
+.game-btn {
+    background: var(--accent);
+    color: var(--text);
+    border: 4px solid var(--border);
+    padding: 0.8rem 1.5rem;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 4px 4px 0 var(--border);
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.game-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--border);
+    background: var(--hover);
+}
+
+.game-btn:active {
+    transform: translate(0, 0);
+    box-shadow: 2px 2px 0 var(--border);
+}
+
+/* Score and Badge Display */
+.user-stats {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    background: var(--accent);
+    border: 2px solid var(--border);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 4px 4px 0 var(--border);
+    z-index: 1000;
+    font-family: 'VT323', monospace;
+    font-size: 1.1rem;
+    min-width: 200px;
+}
+
+.score-display {
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: bold;
+}
+
+.badges-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 1.5rem;
+    padding: 0.2rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: help;
+}
+
+/* Responsive adjustments for enhanced games */
+@media (max-width: 768px) {
+    .badge-notification {
+        right: 10px;
+        top: 10px;
+        max-width: 250px;
+        font-size: 1rem;
+    }
+    
+    .user-stats {
+        right: 10px;
+        top: 70px;
+        min-width: 150px;
+        font-size: 1rem;
+    }
+    
+    #docking-challenge-canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Theme-specific enhancements */
+[data-theme="ocean"] .badge-notification {
+    background: #1e40af;
+    border-color: #1d4ed8;
+}
+
+[data-theme="sunset"] .badge-notification {
+    background: #991b1b;
+    border-color: #b91c1c;
+}
+
+/* Game UI improvements */
+.games-split-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+    .games-split-view {
+        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 }
